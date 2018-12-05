@@ -14,4 +14,5 @@
     </string>
     <string name="server_client_id" translatable="false">287785973542–5tfs61fa469s6svjni9fhj6bd32cu8f6.apps.googleusercontent.com</string>
     <string name="google_sign_up">Zaloguj się z Google</string>
+    <string name="title_activity_kid" translatable="false">Map</string>
 </resources>

@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
@@ -51,10 +52,20 @@ public class LoginActivity extends AppCompatActivity {
     // UI references.
     private EditText mPasswordView;
 
+    private Button mSignInButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        mSignInButton = findViewById(R.id.email_sign_in_button);
+        mSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, KidActivity.class);
+                startActivity(intent);
+            }
+        });
         // Set up the login form.
         configureGoogleSignInButton();
 
