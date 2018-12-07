@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -12,12 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
 
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -29,6 +30,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -53,17 +57,32 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
 
     private Button mSignInButton;
+    private AutoCompleteTextView mEmailView;
+
+    private AsyncTask mServerPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mSignInButton = findViewById(R.id.email_sign_in_button);
+        setReferencesToViews();
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, KidActivity.class);
-                startActivity(intent);
+                mServerPost = new AsyncTask() {
+                    @Override
+                    protected Object doInBackground(Object[] objects) {
+                        String email = mEmailView.getText().toString();
+                        String password = mPasswordView.getText().toString();
+                        Log.d(TAG, "onClick: " + email + " " + password);
+                        HashMap<String, String> params = new HashMap<>();
+                        params.put("email", "admin@gmail.com");
+                        params.put("password", "admin");
+                        Log.d(TAG, "doInBackground: " + BackEndServerUtils.performPostCall(BackEndServerUtils.BACKEND_SERVER_LOGIN_AUTH, params));
+                        return null;
+                    }
+                };
+                mServerPost.execute();
             }
         });
         // Set up the login form.
@@ -72,6 +91,12 @@ public class LoginActivity extends AppCompatActivity {
         configureGoogleSignInClient();
 
 
+    }
+
+    private void setReferencesToViews() {
+        mSignInButton = findViewById(R.id.email_sign_in_button);
+        mPasswordView = findViewById(R.id.et_password);
+        mEmailView = findViewById(R.id.email);
     }
 
     private void configureGoogleSignInButton() {
@@ -101,7 +126,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
@@ -118,13 +142,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUI(GoogleSignInAccount account) {
-        if (account != null){
+        if (account != null) {
             // TODO: user is logged in navigate to main activity
         }
     }
-
-
-
 
 
     @Override
@@ -135,10 +156,6 @@ public class LoginActivity extends AppCompatActivity {
             handleSignInResult(task);
         }
     }
-
-
-
-
 
 
 }

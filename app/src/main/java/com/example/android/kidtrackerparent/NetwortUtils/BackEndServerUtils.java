@@ -1,5 +1,9 @@
 package com.example.android.kidtrackerparent.NetwortUtils;
 
+import android.util.Log;
+
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -10,13 +14,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
 public class BackEndServerUtils {
 
-    private static final String BACKEND_SERVER_URL = "https://kid-tracker.herokuapp.com/";
+    public static final String TAG = BackEndServerUtils.class.getSimpleName();
+
+    public static final String BACKEND_SERVER_URL = "https://kid-tracker.herokuapp.com/";
+    public static final String BACKEND_SERVER_LOGIN_AUTH = BACKEND_SERVER_URL + "auth/" + "local";
 
     public static String performPostCall(String requestURL,
                                   HashMap<String, String> postDataParams) {
@@ -32,19 +40,24 @@ public class BackEndServerUtils {
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
             conn.setDoOutput(true);
-
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            JSONObject auth = new JSONObject();
+            auth.put("email", "admin@gmail.com");
+            auth.put("password", "admin");
 
             OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getPostDataString(postDataParams));
-
+            OutputStreamWriter writer = new OutputStreamWriter(os, "UTF-8");
+            writer.write(auth.toString());
+            Log.d(TAG, "performPostCall: " +getPostDataString(postDataParams));
             writer.flush();
             writer.close();
             os.close();
+            conn.connect();
             int responseCode=conn.getResponseCode();
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
+                List<String> cookies = conn.getHeaderFields().get("Set-Cookie");
+                Log.d(TAG, "performPostCall: " + cookies);
                 String line;
                 BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 while ((line=br.readLine()) != null) {

@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.android.kidtrackerparent.R;
+import com.example.android.kidtrackerparent.Utils.LocationUtils;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 import com.google.android.gms.location.LocationServices;
@@ -28,7 +30,10 @@ public class LocationSenderService extends JobService {
         mBackgroundTask = new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] objects) {
-                sendNotification("Działa");
+                Location location = LocationUtils.getLastLocation(LocationSenderService.this);
+                if (location != null) {
+                    sendNotification(LocationUtils.getLastLocation(LocationSenderService.this).toString());
+                }
                 Log.d(TAG, "Powiadomienie powinno byc");
                 return null;
             }
