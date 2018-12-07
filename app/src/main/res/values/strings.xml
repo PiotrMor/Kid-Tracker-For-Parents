@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Kid Tracker Parent</string>
-    <!-- Strings related to login -->
+    <!-- Strings related to login and register -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Hasło</string>
     <string name="action_sign_in">Zaloguj się</string>
@@ -15,4 +15,14 @@
     <string name="server_client_id" translatable="false">287785973542–5tfs61fa469s6svjni9fhj6bd32cu8f6.apps.googleusercontent.com</string>
     <string name="google_sign_up">Zaloguj się z Google</string>
     <string name="title_activity_kid" translatable="false">Map</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="name_prompt">Imię</string>
+    <string name="prompt_surname">Nazwisko</string>
+    <string name="tv_register">Rejestracja</string>
+    <string name="rb_kid">Dziecko</string>
+    <string name="rb_parent">Rodzic</string>
+    <string name="button_register">Zarejestruj się</string>
+    <string name="register_prompt">Nie masz konta? Zarejestruj się!</string>
+
+
 </resources>

@@ -21,8 +21,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
-
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <activity
             android:name=".LoginActivity"
@@ -47,14 +48,17 @@
 
         <activity
             android:name=".KidActivity"
-            android:label="@string/title_activity_kid"></activity>
+            android:label="@string/title_activity_kid" />
 
-        <service android:name=".KidUtils.LocationSenderService"
+        <service
+            android:name=".KidUtils.LocationSenderService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.firevase.jobdispatcher.ACTION_EXECUTE"/>
+                <action android:name="com.firevase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
+
+        <activity android:name=".RegisterActivity"></activity>
     </application>
 
 </manifest>
