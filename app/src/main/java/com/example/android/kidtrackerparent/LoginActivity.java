@@ -1,16 +1,10 @@
 package com.example.android.kidtrackerparent;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
 
 import android.os.Bundle;
@@ -23,6 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetwortUtils.ResponseTuple;
+import com.example.android.kidtrackerparent.Utils.CookieUtils;
+import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -32,7 +29,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -74,11 +70,17 @@ public class LoginActivity extends AppCompatActivity {
                     protected Object doInBackground(Object[] objects) {
                         String email = mEmailView.getText().toString();
                         String password = mPasswordView.getText().toString();
-                        Log.d(TAG, "onClick: " + email + " " + password);
+                        //Log.d(TAG, "onClick: " + email + " " + password);
                         HashMap<String, String> params = new HashMap<>();
-                        params.put("email", "admin@gmail.com");
-                        params.put("password", "admin");
-                        Log.d(TAG, "doInBackground: " + BackEndServerUtils.performPostCall(BackEndServerUtils.BACKEND_SERVER_LOGIN_AUTH, params));
+                        params.put("email", email);
+                        params.put("password", password);
+                        ResponseTuple tuple = BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_LOGIN_AUTH, params);
+                        PreferenceUtils.addSessionCookie(LoginActivity.this, CookieUtils.getSessionFromCookie(tuple.getCookie()));
+                        //Log.d(TAG, "doInBackground: " + CookieUtils.getSessionFromCookie(tuple.getCookie()));
+                        String tuuple = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_CURRENT_USER,
+                                PreferenceUtils.getSessionCookie(LoginActivity.this));
+                        //Log.d(TAG, "zapisane: " + PreferenceUtils.getSessionCookie(LoginActivity.this));
+                        Log.d(TAG, "responsee: " + tuuple);
                         return null;
                     }
                 };
@@ -130,8 +132,20 @@ public class LoginActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
+            Log.d(TAG, "token: " + idToken);
 
-            //String response = BackEndServerUtils.performPostCall(BackEndServerUtils.performPostCall());
+            AsyncTask getCall = new AsyncTask() {
+                @Override
+                protected Object doInBackground(Object[] objects) {
+                    String response = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GOOGLE_SIGN_IN, null);
+                    Log.d(TAG, "handleSignInResult: " + response);
+                    return null;
+                }
+
+            };
+            getCall.execute();
+
+
 
 
             updateUI(account);

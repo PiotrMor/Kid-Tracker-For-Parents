@@ -12,7 +12,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="server_client_id" translatable="false">287785973542–5tfs61fa469s6svjni9fhj6bd32cu8f6.apps.googleusercontent.com</string>
+    <string name="server_client_id" translatable="false">287785973542-1vbk8426nr2pvi7fpkjapelh81ejsi98.apps.googleusercontent.com</string>
     <string name="google_sign_up">Zaloguj się z Google</string>
     <string name="title_activity_kid" translatable="false">Map</string>
     <string name="title_activity_register">RegisterActivity</string>
@@ -23,6 +23,9 @@
     <string name="rb_parent">Rodzic</string>
     <string name="button_register">Zarejestruj się</string>
     <string name="register_prompt">Nie masz konta? Zarejestruj się!</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="login_text">Logowanie</string>
 
+    <string name="shared_preferences_file">app_preferences</string>
 
 </resources>

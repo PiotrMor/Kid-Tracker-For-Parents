@@ -2,20 +2,21 @@ package com.example.android.kidtrackerparent.NetwortUtils;
 
 import android.util.Log;
 
+import com.example.android.kidtrackerparent.Utils.CookieUtils;
+
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -23,12 +24,21 @@ public class BackEndServerUtils {
 
     public static final String TAG = BackEndServerUtils.class.getSimpleName();
 
-    public static final String BACKEND_SERVER_URL = "https://kid-tracker.herokuapp.com/";
-    public static final String BACKEND_SERVER_LOGIN_AUTH = BACKEND_SERVER_URL + "auth/" + "local";
+    public static final String SERVER_URL = "https://kid-tracker.herokuapp.com/";
+    public static final String SERVER_LOGIN_AUTH = SERVER_URL + "auth/" + "local";
+    public static final String SERVER_REGISTER = SERVER_URL + "api/registration";
+    public static final String SERVER_GOOGLE_SIGN_IN = SERVER_URL + "auth/google";
+    public static final String SERVER_CURRENT_USER = SERVER_URL + "api/current_user";
 
-    public static String performPostCall(String requestURL,
+    public static final String NO_COOKIES = "0 cookies";
+
+
+
+
+
+    public static ResponseTuple performPostCall(String requestURL,
                                   HashMap<String, String> postDataParams) {
-
+        String cookie = NO_COOKIES;
         URL url;
         String response = "";
         try {
@@ -41,14 +51,11 @@ public class BackEndServerUtils {
             conn.setDoInput(true);
             conn.setDoOutput(true);
             conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            JSONObject auth = new JSONObject();
-            auth.put("email", "admin@gmail.com");
-            auth.put("password", "admin");
-
             OutputStream os = conn.getOutputStream();
             OutputStreamWriter writer = new OutputStreamWriter(os, "UTF-8");
-            writer.write(auth.toString());
+            writer.write(getPostDataString(postDataParams));
             Log.d(TAG, "performPostCall: " +getPostDataString(postDataParams));
+
             writer.flush();
             writer.close();
             os.close();
@@ -57,7 +64,14 @@ public class BackEndServerUtils {
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 List<String> cookies = conn.getHeaderFields().get("Set-Cookie");
-                Log.d(TAG, "performPostCall: " + cookies);
+                if(cookies != null && !cookies.isEmpty()){
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (String element : cookies) {
+                        stringBuilder.append(element);
+                    }
+                    cookie = stringBuilder.toString();
+                }
+                Log.d(TAG, "cookies: " + cookies);
                 String line;
                 BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 while ((line=br.readLine()) != null) {
@@ -72,23 +86,48 @@ public class BackEndServerUtils {
             e.printStackTrace();
         }
 
-        return response;
+
+        return new ResponseTuple(response, cookie);
+    }
+
+    public static String performGetCall(String requestURl, String cookie) {
+
+
+        try {
+            URL url = new URL(requestURl);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            if (cookie != null) {
+                conn.setRequestProperty("Cookie", cookie);
+                Log.d(TAG, "performGetCall: " + cookie);
+            }
+            conn.connect();
+
+            int respondCode = conn.getResponseCode();
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            List<String> cookies = conn.getHeaderFields().get("Set-Cookie");
+            Log.d(TAG, "performPostCall: " + cookies);
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            return response.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
+
     }
 
     private static String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for(Map.Entry<String, String> entry : params.entrySet()){
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-        }
-
-        return result.toString();
+        return new JSONObject(params).toString();
     }
 }

@@ -1,13 +1,16 @@
 package com.example.android.kidtrackerparent;
 
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.android.kidtrackerparent.Enums.AccountType;
+import com.example.android.kidtrackerparent.NetwortUtils.Registration;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -27,8 +30,20 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+
         setReferencesToViews();
         addRegisterButtonOnClick();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void addRegisterButtonOnClick() {
@@ -37,24 +52,25 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
                 checkUserInput();
                 if (isInputDataCorrect) {
-
+                    registerUser();
                 }
             }
         });
+    }
+
+    private void registerUser() {
+        Registration registration = new Registration(getText(mName), getText(mSurname), getText(mEmail), getText(mPassword));
+        registration.execute();
+    }
+
+    private String getText(EditText view) {
+        return view.getText().toString();
     }
 
     private void checkUserInput() {
         checkPersonalData();
         checkEmail();
         checkPassword();
-        checkRadioGroup();
-    }
-
-    private void checkRadioGroup() {
-        if (mAccountType == null) {
-            isInputDataCorrect = true;
-            Log.d(TAG, "checkRadioGroup: zaznacz cos");
-        }
     }
 
     private void checkPassword() {
@@ -70,7 +86,6 @@ public class RegisterActivity extends AppCompatActivity {
             Log.d(TAG, "checkEmail: zly email");
         }
     }
-
 
     private void checkPersonalData() {
         if (mName.getText().toString().equals("")) {
@@ -94,16 +109,4 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    public void onRadioButtonClicked(View view) {
-        int id = view.getId();
-        switch (id) {
-            case R.id.radio_kid:
-                mAccountType = AccountType.KID;
-                break;
-
-            case R.id.radio_parent:
-                mAccountType = AccountType.PARENT;
-                break;
-        }
-    }
 }
