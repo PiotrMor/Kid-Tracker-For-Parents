@@ -12,21 +12,31 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.android.kidtrackerparent.Enums.AccountType;
+import com.example.android.kidtrackerparent.Kid.KidMainActivity;
 import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.NetwortUtils.ResponseTuple;
-import com.example.android.kidtrackerparent.Utils.CookieUtils;
+import com.example.android.kidtrackerparent.Parent.ParentMainActivity;
+import com.example.android.kidtrackerparent.Utils.JSONUtils;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -57,10 +67,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private AsyncTask mServerPost;
 
+    private AccountType mAccountType;
+
+    private Toast mToast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkIfUserIsLoggedIn();
         setContentView(R.layout.activity_login);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
         setReferencesToViews();
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -68,19 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 mServerPost = new AsyncTask() {
                     @Override
                     protected Object doInBackground(Object[] objects) {
-                        String email = mEmailView.getText().toString();
-                        String password = mPasswordView.getText().toString();
-                        //Log.d(TAG, "onClick: " + email + " " + password);
-                        HashMap<String, String> params = new HashMap<>();
-                        params.put("email", email);
-                        params.put("password", password);
-                        ResponseTuple tuple = BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_LOGIN_AUTH, params);
-                        PreferenceUtils.addSessionCookie(LoginActivity.this, CookieUtils.getSessionFromCookie(tuple.getCookie()));
-                        //Log.d(TAG, "doInBackground: " + CookieUtils.getSessionFromCookie(tuple.getCookie()));
-                        String tuuple = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_CURRENT_USER,
-                                PreferenceUtils.getSessionCookie(LoginActivity.this));
-                        //Log.d(TAG, "zapisane: " + PreferenceUtils.getSessionCookie(LoginActivity.this));
-                        Log.d(TAG, "responsee: " + tuuple);
+                        logInToServer(mEmailView.getText().toString(), mPasswordView.getText().toString());
                         return null;
                     }
                 };
@@ -94,6 +99,102 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+    private void checkIfUserIsLoggedIn() {
+        if (PreferenceUtils.getSessionCookie(this) != null) {
+            int accountTypeValue = PreferenceUtils.getIntegerPreference(this, PreferenceUtils.ACCOUNT_TYPE_KEY);
+            if (accountTypeValue == AccountType.KID.getNumVal()) {
+                mAccountType = AccountType.KID;
+            } else if (accountTypeValue == AccountType.PARENT.getNumVal()) {
+                mAccountType = AccountType.PARENT;
+            }
+            navigateToNextActivity();
+        }
+    }
+
+    private void logInToServer(String email, String password) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("email", email);
+        params.put("password", password);
+        String requestURL = getRequestURL();
+        if (requestURL != null) {
+            ResponseTuple response = BackEndServerUtils.performPostCall(requestURL, params);
+
+            String responseBody = response.getResponse();
+            String responseCookie = response.getCookie();
+            
+            retrieveIdFromResponse(responseBody);
+
+            if (!responseCookie.equals(BackEndServerUtils.NO_COOKIES)) {
+                saveSessionIdAndAccountType(responseCookie);
+
+                navigateToNextActivity();
+            }
+        } else {
+            if (mToast != null) {
+                mToast.cancel();
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mToast = Toast.makeText(LoginActivity.this, "Wybierz rodzaj konta", Toast.LENGTH_LONG);
+                    mToast.show();
+                }
+            });
+
+        }
+
+    }
+
+    private void retrieveIdFromResponse(String responseBody) {
+        try {
+            Log.d(TAG, "retrieveIdFromResponse:  " + JSONUtils.getUserIdFromJson(new JSONObject(responseBody)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveSessionIdAndAccountType(String responseCookie) {
+        setSession(responseCookie);
+        PreferenceUtils.addIntegerPreference(
+                        this,
+                        PreferenceUtils.ACCOUNT_TYPE_KEY,
+                        mAccountType.getNumVal());
+    }
+
+    private void navigateToNextActivity() {
+        if (mAccountType == AccountType.PARENT) {
+            navigateToParentActivity();
+        } else if (mAccountType == AccountType.KID) {
+            navigateToKidActivity();
+        }
+    }
+
+    private void navigateToKidActivity() {
+        Intent intent = new Intent(this, KidMainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private String getRequestURL() {
+        if (mAccountType == AccountType.PARENT) {
+            return BackEndServerUtils.SERVER_LOGIN_PARENT;
+        } else if (mAccountType == AccountType.KID) {
+            return BackEndServerUtils.SERVER_LOGIN_KID;
+        }
+        return null;
+    }
+
+    private void navigateToParentActivity() {
+        Intent intent = new Intent(this, ParentMainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void setSession(String cookie) {
+        PreferenceUtils.addSessionCookie(this, cookie);
+    }
+
 
     private void setReferencesToViews() {
         mSignInButton = findViewById(R.id.email_sign_in_button);
@@ -114,6 +215,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void configureGoogleSignInClient() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestScopes(new Scope(Scopes.DRIVE_FILE))
                 .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
@@ -131,14 +233,18 @@ public class LoginActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String idToken = account.getIdToken();
-            Log.d(TAG, "token: " + idToken);
+            final String idToken = account.getIdToken();
+            Log.d(TAG, "token: " + account.getServerAuthCode());
 
             AsyncTask getCall = new AsyncTask() {
                 @Override
                 protected Object doInBackground(Object[] objects) {
-                    String response = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GOOGLE_SIGN_IN, null);
-                    Log.d(TAG, "handleSignInResult: " + response);
+                    HashMap <String, String> map = new HashMap<>();
+                    map.put("access_token", "ya29.GlxuBoMwQBGC3F-8tBFoaXmfIjamvDnZvfzKE-xVNy1npF3hw9yunGmYpW6JkqONmRYUE1ghghJC5tPXh89R1brYr9tQlexWXObKCylSaxFc3vbkDtrByDFyBl01_Q");
+                    ResponseTuple tuple = BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_GOOGLE_SIGN_IN
+                            , map);
+
+                    Log.d(TAG, "handleSignInResult: " + tuple.getCookie());
                     return null;
                 }
 
@@ -175,6 +281,15 @@ public class LoginActivity extends AppCompatActivity {
     public void register(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
+    }
+
+    public void onRadioButtonClicked(View view) {
+        int id = view.getId();
+        if (id == R.id.radio_kid) {
+            mAccountType = AccountType.KID;
+        } else if (id == R.id.radio_parent) {
+            mAccountType = AccountType.PARENT;
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.android.kidtrackerparent;
 
+import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,11 +9,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android.kidtrackerparent.Enums.AccountType;
 import com.example.android.kidtrackerparent.NetwortUtils.Registration;
+import com.example.android.kidtrackerparent.NetwortUtils.ResponseTuple;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements Registration.AsyncResponse {
 
     public static final String TAG = RegisterActivity.class.getSimpleName();
 
@@ -59,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
-        Registration registration = new Registration(getText(mName), getText(mSurname), getText(mEmail), getText(mPassword));
+        Registration registration = new Registration(getText(mName), getText(mSurname), getText(mEmail), getText(mPassword), mAccountType, this);
         registration.execute();
     }
 
@@ -71,6 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
         checkPersonalData();
         checkEmail();
         checkPassword();
+        checkAccountType();
     }
 
     private void checkPassword() {
@@ -108,5 +112,31 @@ public class RegisterActivity extends AppCompatActivity {
         mRegisterButton = findViewById(R.id.button_register);
     }
 
+    private void checkAccountType() {
+        if (mAccountType == null) {
+            isInputDataCorrect = false;
+            Log.d(TAG, "checkAccountType: account type not set");
+        }
+    }
 
+
+    public void onRadioButtonClicked(View view) {
+        int id = view.getId();
+        if (id == R.id.radio_kid) {
+            mAccountType = AccountType.KID;
+        } else if (id == R.id.radio_parent) {
+            mAccountType = AccountType.PARENT;
+        }
+    }
+
+    @Override
+    public void processFinish(ResponseTuple tuple) {
+        if (!tuple.getResponse().equals("")) {
+
+            Toast.makeText(this,"Udało się", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 }

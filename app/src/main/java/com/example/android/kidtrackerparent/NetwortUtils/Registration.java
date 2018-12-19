@@ -2,7 +2,8 @@ package com.example.android.kidtrackerparent.NetwortUtils;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.util.Log;
+
+import com.example.android.kidtrackerparent.Enums.AccountType;
 
 import java.util.HashMap;
 
@@ -12,21 +13,34 @@ public class Registration extends AsyncTask<Void, Void, ResponseTuple> {
     private String secondName;
     private String email;
     private String password;
+    private AccountType accountType;
+    public AsyncResponse delegate = null;
 
-    public Registration(@NonNull String firstName, @NonNull String secondName, @NonNull String email, @NonNull String password) {
+    public Registration(@NonNull String firstName, @NonNull String secondName, @NonNull String email, @NonNull String password, @NonNull AccountType accountType, @NonNull AsyncResponse asyncResponse) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
         this.password = password;
+        this.accountType = accountType;
+        this.delegate = asyncResponse;
     }
 
     @Override
-    protected ResponseTuple doInBackground(Void... vvoid) {
+    protected ResponseTuple doInBackground(Void... void_) {
         HashMap<String, String> params = createParamsForPostCall();
-        return BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_REGISTER, params);
+        if (accountType == AccountType.PARENT) {
+            return BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_REGISTER_PARENT, params);
+        } else if (accountType == AccountType.KID) {
+            return BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_REGISTER_CHILD, params);
+        }
+
+        return BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_REGISTER_PARENT, params);
     }
 
-
+    @Override
+    protected void onPostExecute(ResponseTuple responseTuple) {
+        delegate.processFinish(responseTuple);
+    }
 
     private HashMap<String, String> createParamsForPostCall() {
         HashMap<String, String> params = new HashMap<>();
@@ -35,5 +49,9 @@ public class Registration extends AsyncTask<Void, Void, ResponseTuple> {
         params.put("password", password);
         params.put("email", email);
         return params;
+    }
+
+    public interface AsyncResponse {
+        void processFinish(ResponseTuple tuple);
     }
 }

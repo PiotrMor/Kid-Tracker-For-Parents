@@ -45,14 +45,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="28dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:ems="10"
             android:hint="@string/name_prompt"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -74,11 +74,44 @@
             style="@style/TextAppearance.AppCompat.Display1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="32dp"
             android:text="@string/tv_register"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rg_LoginAccountType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/et_password_register"
+            app:layout_constraintTop_toBottomOf="@+id/et_password_register">
+
+            <RadioButton
+                android:id="@+id/radio_kid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity=""
+                android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/rb_kid" />
+
+            <RadioButton
+                android:id="@+id/radio_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/rb_parent" />
+        </RadioGroup>
 
 
         <Button
@@ -88,7 +121,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/button_register"
             app:layout_constraintEnd_toEndOf="@+id/et_password_register"
-            app:layout_constraintTop_toBottomOf="@+id/et_password_register" />
+            app:layout_constraintTop_toBottomOf="@+id/rg_LoginAccountType" />
 
 
     </android.support.constraint.ConstraintLayout>

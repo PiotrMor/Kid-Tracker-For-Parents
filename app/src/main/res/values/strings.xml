@@ -27,5 +27,23 @@
     <string name="login_text">Logowanie</string>
 
     <string name="shared_preferences_file">app_preferences</string>
+    <string name="title_activity_parent_main">ParentMainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_kids_label">Dzieci</string>
+    <string name="drawer_areas_label">Obszary</string>
+    <string name="drawer_rules_label">Reguły</string>
+    <string name="drawer_tools_label">Ustawienia</string>
+    <string name="drawer_logout_label">Wyloguj się</string>
+    <string name="drawer_map_label">Mapa</string>
+    <string name="drawer_code_label">Kod</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="kid_main_activity_label">KidMainActivity</string>
 
 </resources>

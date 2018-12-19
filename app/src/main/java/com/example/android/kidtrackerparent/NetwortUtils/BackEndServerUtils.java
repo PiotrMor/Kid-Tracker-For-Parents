@@ -2,8 +2,6 @@ package com.example.android.kidtrackerparent.NetwortUtils;
 
 import android.util.Log;
 
-import com.example.android.kidtrackerparent.Utils.CookieUtils;
-
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -11,9 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpCookie;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -25,10 +21,23 @@ public class BackEndServerUtils {
     public static final String TAG = BackEndServerUtils.class.getSimpleName();
 
     public static final String SERVER_URL = "https://kid-tracker.herokuapp.com/";
-    public static final String SERVER_LOGIN_AUTH = SERVER_URL + "auth/" + "local";
-    public static final String SERVER_REGISTER = SERVER_URL + "api/registration";
-    public static final String SERVER_GOOGLE_SIGN_IN = SERVER_URL + "auth/google";
     public static final String SERVER_CURRENT_USER = SERVER_URL + "api/current_user";
+
+
+
+    //URL's for parent app
+    public static final String SERVER_LOGIN_PARENT = SERVER_URL + "auth/parent/local";
+    public static final String SERVER_REGISTER_PARENT = SERVER_URL + "registration/parent";
+    public static final String SERVER_GOOGLE_SIGN_IN = SERVER_URL + "auth/parent/google";
+    public static final String SERVER_GET_CHILDREN = SERVER_URL + "api/parent/children";
+    public static final String SERVER_ADD_CHILDREN = SERVER_URL + "api/parent/children";
+    public static final String SERVER_UPDATE_CHILDREN = SERVER_ADD_CHILDREN + "/id";
+
+
+    //URL's for kid app
+    public static final String SERVER_REGISTER_CHILD = SERVER_URL + "registration/child";
+    public static final String SERVER_LOGIN_KID = SERVER_URL + "auth/child/local";
+    public static final String SERVER_GET_CHILD_CODE = SERVER_URL + "api/child/code";
 
     public static final String NO_COOKIES = "0 cookies";
 
@@ -85,7 +94,7 @@ public class BackEndServerUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        Log.d(TAG, requestURL + " " + response);
 
         return new ResponseTuple(response, cookie);
     }

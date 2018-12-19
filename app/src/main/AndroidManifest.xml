@@ -45,10 +45,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".KidActivity"
-            android:label="@string/title_activity_kid" />
+        <activity android:name=".Kid.KidMainActivity"
+            android:label="@string/kid_main_activity_label"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <service
             android:name=".KidUtils.LocationSenderService"
@@ -61,8 +60,12 @@
         <activity android:name=".RegisterActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity"/>
+                android:value=".LoginActivity" />
         </activity>
+        <activity
+            android:name=".Parent.ParentMainActivity"
+            android:label="@string/title_activity_parent_main"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
