@@ -57,15 +57,7 @@ public class DisplayCodeFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DisplayCodeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static DisplayCodeFragment newInstance(String param1, String param2) {
         DisplayCodeFragment fragment = new DisplayCodeFragment();
 
@@ -135,7 +127,7 @@ public class DisplayCodeFragment extends Fragment {
 
     private void startCountdownTimer() {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("polish"));
-
+        //TODO: check if this works all the time
         try {
             Date date = df.parse(mCreationDate);
             new CountDownTimer(
@@ -153,9 +145,10 @@ public class DisplayCodeFragment extends Fragment {
                 @Override
                 public void onFinish() {
                     createBackgroundTask();
-                    mTimerTextView.setTextColor(getResources().getColor(R.color.green));
-
-                    mGetChildCode.execute();
+                    if (getActivity() != null) {
+                        mTimerTextView.setTextColor(getResources().getColor(R.color.green));
+                        mGetChildCode.execute();
+                    }
                 }
             }.start();
         } catch (ParseException e) {

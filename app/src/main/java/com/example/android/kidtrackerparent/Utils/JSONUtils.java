@@ -31,6 +31,15 @@ public class JSONUtils {
         return null;
     }
 
+    public static String getValueFromJson(JSONObject jsonObject, String key) {
+        try {
+            return jsonObject.getString(key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     private static String createJsonString(String key, String value) {
         return "\"" + key + "\"" + ":\"" + value + "\"";
     }

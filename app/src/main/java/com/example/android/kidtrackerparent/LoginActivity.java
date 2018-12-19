@@ -1,6 +1,7 @@
 package com.example.android.kidtrackerparent;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -47,25 +48,19 @@ import java.util.HashMap;
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG = LoginActivity.class.getSimpleName();
 
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
+
     private static final int REQUEST_READ_CONTACTS = 0;
     private static final int RC_SIGN_IN = 1;
-
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-
+    public static final String KEY_RESPONSE = "response";
     private GoogleSignInClient mGoogleSignInClient;
 
     // UI references.
     private EditText mPasswordView;
-
     private Button mSignInButton;
     private AutoCompleteTextView mEmailView;
 
     private AsyncTask mServerPost;
+    private AsyncTask mServerGet;
 
     private AccountType mAccountType;
 
@@ -108,9 +103,20 @@ public class LoginActivity extends AppCompatActivity {
             } else if (accountTypeValue == AccountType.PARENT.getNumVal()) {
                 mAccountType = AccountType.PARENT;
             }
-            navigateToNextActivity();
+            mServerGet = new AsyncTask() {
+                @Override
+                protected Object doInBackground(Object[] objects) {
+                    String response = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_CURRENT_USER, PreferenceUtils.getSessionCookie(LoginActivity.this));
+                    if (!response.equals("")){
+                        navigateToNextActivity(response);
+                    }
+                    return null;
+                }
+            };
+            mServerGet.execute();
         }
     }
+
 
     private void logInToServer(String email, String password) {
         HashMap<String, String> params = new HashMap<>();
@@ -128,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
             if (!responseCookie.equals(BackEndServerUtils.NO_COOKIES)) {
                 saveSessionIdAndAccountType(responseCookie);
 
-                navigateToNextActivity();
+                navigateToNextActivity(responseBody);
             }
         } else {
             if (mToast != null) {
@@ -162,9 +168,9 @@ public class LoginActivity extends AppCompatActivity {
                         mAccountType.getNumVal());
     }
 
-    private void navigateToNextActivity() {
+    private void navigateToNextActivity(String responseBody) {
         if (mAccountType == AccountType.PARENT) {
-            navigateToParentActivity();
+            navigateToParentActivity(responseBody);
         } else if (mAccountType == AccountType.KID) {
             navigateToKidActivity();
         }
@@ -185,8 +191,9 @@ public class LoginActivity extends AppCompatActivity {
         return null;
     }
 
-    private void navigateToParentActivity() {
+    private void navigateToParentActivity(String responseBody) {
         Intent intent = new Intent(this, ParentMainActivity.class);
+        intent.putExtra(KEY_RESPONSE, responseBody);
         startActivity(intent);
         finish();
     }
@@ -291,5 +298,6 @@ public class LoginActivity extends AppCompatActivity {
             mAccountType = AccountType.PARENT;
         }
     }
+
 }
 

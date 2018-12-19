@@ -1,6 +1,7 @@
 package com.example.android.kidtrackerparent.Parent;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,34 +15,59 @@ import android.view.MenuItem;
 
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.LoginActivity;
+import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParentMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, KidsListFragment.OnListFragmentInteractionListener {
 
     public static final String TAG = ParentMainActivity.class.getSimpleName();
 
+    private NavigationView mNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        getDataFromJson();
+
+
+        setReferencesToViews();
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new KidsListFragment()).commit();
+        mNavigationView.setCheckedItem(R.id.nav_kids);
+
+    }
+
+
+
+    private void getDataFromJson() {
+        Intent intent = getIntent();
+        if (intent.hasExtra(LoginActivity.KEY_RESPONSE)) {
+
+        }
+    }
+
+    private void setReferencesToViews() {
+        Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new KidsListFragment()).commit();
-        navigationView.setCheckedItem(R.id.nav_kids);
+        mNavigationView =  findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
     }
 
@@ -99,10 +125,7 @@ public class ParentMainActivity extends AppCompatActivity
         return true;
     }
 
-    private void switchToActivity(Class activityClass) {
-        Intent intent = new Intent(this, activityClass);
-        startActivity(intent);
-    }
+
 
     private void logoutFromAccount() {
         PreferenceUtils.addSessionCookie(this, null);

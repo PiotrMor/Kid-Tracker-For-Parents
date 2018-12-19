@@ -45,5 +45,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="kid_main_activity_label">KidMainActivity</string>
+    <string name="add_kid_label">Dodaj dziecko</string>
+    <string name="kid_name_hint">Imię dziecka</string>
+    <string name="kid_code_hint">Token dziecka</string>
+    <string name="add_button_label">Dodaj</string>
+
+    <string name="color_blue_label">Niebieski</string>
+    <string name="color_red_label">Czerwony</string>
 
 </resources>
