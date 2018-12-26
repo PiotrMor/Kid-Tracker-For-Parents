@@ -137,5 +137,7 @@ public class ParentMainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Kid item) {
         Log.d(TAG, "onListFragmentInteraction: " + item.getName());
+        Intent intent = new Intent(this, KidLocationActivity.class);
+        startActivity(intent);
     }
 }

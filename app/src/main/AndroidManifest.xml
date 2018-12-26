@@ -81,6 +81,13 @@
             android:name=".Parent.ParentMainActivity"
             android:label="@string/title_activity_parent_main"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Parent.KidLocationActivity"
+            android:parentActivityName=".Parent.ParentMainActivity">
+            <meta-data
+                android:name=".android.support.PARENT_ACTIVITY"
+                android:value=".Parent.ParentMainActivity" />
+        </activity>
     </application>
 
 </manifest>
