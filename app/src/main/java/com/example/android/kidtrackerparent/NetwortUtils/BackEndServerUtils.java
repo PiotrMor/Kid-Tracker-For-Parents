@@ -1,5 +1,6 @@
 package com.example.android.kidtrackerparent.NetwortUtils;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -46,7 +47,7 @@ public class BackEndServerUtils {
 
 
     public static ResponseTuple performPostCall(String requestURL,
-                                  HashMap<String, String> postDataParams) {
+                                  HashMap<String, String> postDataParams, String sessionCookie) {
         String cookie = NO_COOKIES;
         URL url;
         String response = "";
@@ -60,6 +61,10 @@ public class BackEndServerUtils {
             conn.setDoInput(true);
             conn.setDoOutput(true);
             conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            if (sessionCookie != null) {
+                conn.setRequestProperty("Cookie", sessionCookie);
+            }
+
             OutputStream os = conn.getOutputStream();
             OutputStreamWriter writer = new OutputStreamWriter(os, "UTF-8");
             writer.write(getPostDataString(postDataParams));
@@ -110,7 +115,6 @@ public class BackEndServerUtils {
             conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             if (cookie != null) {
                 conn.setRequestProperty("Cookie", cookie);
-                Log.d(TAG, "performGetCall: " + cookie);
             }
             conn.connect();
 

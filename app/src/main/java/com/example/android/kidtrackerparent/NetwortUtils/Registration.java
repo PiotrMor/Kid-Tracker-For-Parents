@@ -29,12 +29,12 @@ public class Registration extends AsyncTask<Void, Void, ResponseTuple> {
     protected ResponseTuple doInBackground(Void... void_) {
         HashMap<String, String> params = createParamsForPostCall();
         if (accountType == AccountType.PARENT) {
-            return BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_REGISTER_PARENT, params);
+            return BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_REGISTER_PARENT, params,null);
         } else if (accountType == AccountType.KID) {
-            return BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_REGISTER_CHILD, params);
+            return BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_REGISTER_CHILD, params, null);
         }
 
-        return BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_REGISTER_PARENT, params);
+        return BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_REGISTER_PARENT, params, null);
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.example.android.kidtrackerparent;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 
 
@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.kidtrackerparent.Enums.AccountType;
@@ -40,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -58,6 +60,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mPasswordView;
     private Button mSignInButton;
     private AutoCompleteTextView mEmailView;
+    private ConstraintLayout mConstraintLayout;
+    private ProgressBar mProgressBar;
 
     private AsyncTask mServerPost;
     private AsyncTask mServerGet;
@@ -69,11 +73,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkIfUserIsLoggedIn();
         setContentView(R.layout.activity_login);
+        setReferencesToViews();
+        checkIfUserIsLoggedIn();
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        setReferencesToViews();
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,25 +100,38 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //mConstraintLayout.setVisibility(View.VISIBLE);
+
+    }
+
     private void checkIfUserIsLoggedIn() {
         if (PreferenceUtils.getSessionCookie(this) != null) {
+            mConstraintLayout.setVisibility(View.INVISIBLE);
             int accountTypeValue = PreferenceUtils.getIntegerPreference(this, PreferenceUtils.ACCOUNT_TYPE_KEY);
             if (accountTypeValue == AccountType.KID.getNumVal()) {
                 mAccountType = AccountType.KID;
             } else if (accountTypeValue == AccountType.PARENT.getNumVal()) {
                 mAccountType = AccountType.PARENT;
             }
+
             mServerGet = new AsyncTask() {
                 @Override
                 protected Object doInBackground(Object[] objects) {
                     String response = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_CURRENT_USER, PreferenceUtils.getSessionCookie(LoginActivity.this));
                     if (!response.equals("")){
                         navigateToNextActivity(response);
+                    } else {
+                        mConstraintLayout.setVisibility(View.VISIBLE);
                     }
                     return null;
                 }
             };
             mServerGet.execute();
+        } else {
+            mConstraintLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -124,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
         params.put("password", password);
         String requestURL = getRequestURL();
         if (requestURL != null) {
-            ResponseTuple response = BackEndServerUtils.performPostCall(requestURL, params);
+            ResponseTuple response = BackEndServerUtils.performPostCall(requestURL, params, null);
 
             String responseBody = response.getResponse();
             String responseCookie = response.getCookie();
@@ -204,6 +222,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void setReferencesToViews() {
+        mConstraintLayout = findViewById(R.id.constraintLayout_login);
+        mProgressBar = findViewById(R.id.login_progress);
         mSignInButton = findViewById(R.id.email_sign_in_button);
         mPasswordView = findViewById(R.id.et_password);
         mEmailView = findViewById(R.id.email);
@@ -249,7 +269,7 @@ public class LoginActivity extends AppCompatActivity {
                     HashMap <String, String> map = new HashMap<>();
                     map.put("access_token", "ya29.GlxuBoMwQBGC3F-8tBFoaXmfIjamvDnZvfzKE-xVNy1npF3hw9yunGmYpW6JkqONmRYUE1ghghJC5tPXh89R1brYr9tQlexWXObKCylSaxFc3vbkDtrByDFyBl01_Q");
                     ResponseTuple tuple = BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_GOOGLE_SIGN_IN
-                            , map);
+                            , map, null);
 
                     Log.d(TAG, "handleSignInResult: " + tuple.getCookie());
                     return null;

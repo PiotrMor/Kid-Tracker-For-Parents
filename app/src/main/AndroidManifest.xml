@@ -46,6 +46,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".Kid.KidMainActivity"
             android:label="@string/kid_main_activity_label"
@@ -65,11 +69,12 @@
                 android:value=".LoginActivity" />
         </activity>
 
-        <activity android:name=".Parent.AddKidActivity"
+        <activity
+            android:name=".Parent.AddKidActivity"
             android:parentActivityName=".Parent.ParentMainActivity">
             <meta-data
                 android:name=".android.support.PARENT_ACTIVITY"
-                android:value=".Parent.ParentMainActivity"/>
+                android:value=".Parent.ParentMainActivity" />
         </activity>
 
         <activity
