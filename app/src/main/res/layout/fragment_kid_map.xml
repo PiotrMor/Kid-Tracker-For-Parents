@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    class="com.google.android.gms.maps.MapFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Kid.KidMapFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
+    <fragment
+        android:id="@+id/fragment_kid_map"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        tools:context=".Kid.KidMapFragment">
 
+
+    </fragment>
 </FrameLayout>

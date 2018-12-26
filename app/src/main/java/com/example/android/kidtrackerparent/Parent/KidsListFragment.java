@@ -139,12 +139,15 @@ public class KidsListFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mRecyclerView.setAdapter(new KidsRecyclerViewAdapter(mKidList, mListener));
-                    }
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mRecyclerView.setAdapter(new KidsRecyclerViewAdapter(mKidList, mListener));
+                        }
+                    });
+                }
+
                 return null;
             }
         }.execute();

@@ -8,10 +8,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".LoginActivity"
     android:theme="@style/AppTheme.NoActionBar"
+
     >
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/constraintLayout_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -37,7 +38,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:visibility="gone" />
+            android:visibility="invisible" />
 
 
         <android.support.design.widget.TextInputLayout
@@ -158,6 +159,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/google_sign_in_button" />
+
+
 
 
     </android.support.constraint.ConstraintLayout>

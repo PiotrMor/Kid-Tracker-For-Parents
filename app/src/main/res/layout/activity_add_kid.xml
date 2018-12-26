@@ -38,7 +38,7 @@
             android:layout_marginRight="16dp"
             android:ems="10"
             android:hint="@string/kid_name_hint"
-            android:inputType="textPersonName"
+            android:inputType="textCapSentences"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_add_kid" />
@@ -65,11 +65,13 @@
             app:layout_constraintTop_toBottomOf="@+id/et_kid_name" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/button_add_kid"
             android:layout_width="152dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             android:text="@string/add_button_label"
+            android:onClick="onAddButtonClicked"
+
             app:layout_constraintEnd_toEndOf="@+id/et_kid_code"
             app:layout_constraintTop_toBottomOf="@+id/spinner_colors" />
 

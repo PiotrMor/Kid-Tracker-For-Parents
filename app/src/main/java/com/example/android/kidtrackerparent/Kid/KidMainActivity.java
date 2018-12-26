@@ -20,7 +20,7 @@ import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 import com.google.android.gms.maps.MapFragment;
 
 public class KidMainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, KidMapFragment.OnFragmentInteractionListener, DisplayCodeFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, DisplayCodeFragment.OnFragmentInteractionListener {
 
     public static final String TAG = KidMainActivity.class.getSimpleName();
 
@@ -44,6 +44,7 @@ public class KidMainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.kid_fragment_container, new KidMapFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_map);
     }
 
     @Override
