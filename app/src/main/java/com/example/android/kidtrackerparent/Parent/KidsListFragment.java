@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
-import com.example.android.kidtrackerparent.LoginActivity;
 import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
@@ -72,7 +71,7 @@ public class KidsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_kids_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_kids_list, container, false);
         mRootView = view;
         // Set the adapter
 

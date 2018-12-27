@@ -112,6 +112,7 @@ public class ParentMainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new KidsListFragment()).commit();
                 break;
             case R.id.nav_areas:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AreasListFragment()).commit();
                 break;
             case R.id.nav_rules:
                 break;
