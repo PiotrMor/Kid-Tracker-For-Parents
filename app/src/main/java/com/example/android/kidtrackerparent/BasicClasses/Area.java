@@ -10,20 +10,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Area {
+import java.io.Serializable;
+
+public class Area implements Serializable {
     public final static String TAG = Area.class.getSimpleName();
 
     private String name;
-    private LatLng position;
+    private double latitude;
+    private double longitude;
     private int radius;
     private String id;
     private String iconId;
 
-    public Area(String name, LatLng position, int radius) {
-        this.name = name;
-        this.position = position;
-        this.radius = radius;
-    }
+
 
     public Area(JSONObject jsonObject) {
         this.id = JSONUtils.getUserIdFromJson(jsonObject);
@@ -34,8 +33,8 @@ public class Area {
         try {
             JSONArray array = jsonObject.getJSONArray("coordinates");
             Log.d(TAG, "Area: " + array.get(0));
-            position = new LatLng(array.getDouble(0),
-                    array.getDouble(1));
+            latitude = array.getDouble(0);
+            longitude = array.getDouble(1);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -45,21 +44,17 @@ public class Area {
         return radius;
     }
 
-    public LatLng getPosition() {
-        return position;
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     public String getName() {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return "Area{" +
-                "name='" + name + '\'' +
-                ", position=" + position +
-                ", radius=" + radius +
-                ", id='" + id + '\'' +
-                '}';
-    }
+
 }

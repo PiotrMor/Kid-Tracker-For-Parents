@@ -88,6 +88,14 @@
                 android:name=".android.support.PARENT_ACTIVITY"
                 android:value=".Parent.ParentMainActivity" />
         </activity>
+
+        <activity
+            android:name=".Parent.DisplayAreaActivity"
+            android:parentActivityName=".Parent.ParentMainActivity">
+            <meta-data
+                android:name=".android.support.PARENT_ACTIVITY"
+                android:value=".Parent.ParentMainActivity" />
+        </activity>
     </application>
 
 </manifest>

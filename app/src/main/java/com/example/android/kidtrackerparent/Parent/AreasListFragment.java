@@ -59,7 +59,7 @@ public class AreasListFragment extends Fragment {
     }
 
     private void addFABOnClick() {
-        FloatingActionButton fab = mRootView.findViewById(R.id.fab_add_kid);
+        FloatingActionButton fab = mRootView.findViewById(R.id.fab_add_area);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

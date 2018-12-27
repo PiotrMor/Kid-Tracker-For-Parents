@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.LoginActivity;
 import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParentMainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, KidsListFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, KidsListFragment.OnListFragmentInteractionListener, AreasListFragment.OnListFragmentInteractionListener {
 
     public static final String TAG = ParentMainActivity.class.getSimpleName();
 
@@ -139,6 +140,13 @@ public class ParentMainActivity extends AppCompatActivity
     public void onListFragmentInteraction(Kid item) {
         Log.d(TAG, "onListFragmentInteraction: " + item.getName());
         Intent intent = new Intent(this, KidLocationActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onListFragmentInteraction(Area area) {
+        Intent intent = new Intent(this, DisplayAreaActivity.class);
+        intent.putExtra("area", area);
         startActivity(intent);
     }
 }
