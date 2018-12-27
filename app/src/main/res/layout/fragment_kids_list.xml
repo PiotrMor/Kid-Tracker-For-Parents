@@ -5,16 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/kids_recycler_view"
-        android:name="com.example.android.kidtrackerparent.ParentFragments.KidsListFragment"
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:context=".Parent.KidsListFragment"
-        tools:listitem="@layout/fragment_kids_list_item" />
+        android:id="@+id/srl_kids_list">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/kids_recycler_view"
+            android:name="com.example.android.kidtrackerparent.ParentFragments.KidsListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:context=".Parent.KidsListFragment"
+            tools:listitem="@layout/fragment_kids_list_item" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_kid"

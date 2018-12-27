@@ -1,9 +1,12 @@
 package com.example.android.kidtrackerparent.Parent;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.kidtrackerparent.BasicClasses.Area;
-import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
@@ -32,7 +34,7 @@ public class AreasListFragment extends Fragment {
     private List<Area> mAreaList;
 
     private RecyclerView mRecyclerView;
-
+    private SwipeRefreshLayout mSwipeRefresh;
     private View mRootView;
     private OnListFragmentInteractionListener mListener;
 
@@ -46,13 +48,35 @@ public class AreasListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_areas_list, container, false);
         mRootView = view;
-        populateAreaList();
+        addRefreshOnSwap();
         Context context = view.getContext();
         mRecyclerView = view.findViewById(R.id.areas_recycler_view);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-       // mRecyclerView.setAdapter(new AreasRecyclerViewAdapter(mAreaList, mListener));
+        populateAreaList();
+        addFABOnClick();
         return  view;
+    }
+
+    private void addFABOnClick() {
+        FloatingActionButton fab = mRootView.findViewById(R.id.fab_add_kid);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent intent = new Intent(getActivity(), AddAreaActivity.class);
+                startActivity(intent);*/
+            }
+        });
+    }
+
+    private void addRefreshOnSwap() {
+        mSwipeRefresh = mRootView.findViewById(R.id.srl_areas_list);
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                populateAreaList();
+            }
+        });
     }
 
     @Override
@@ -74,6 +98,10 @@ public class AreasListFragment extends Fragment {
 
             @Override
             protected Object doInBackground(Object[] objects) {
+                if (getActivity() == null) {
+                    return null;
+                }
+
                 String jsonString = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GET_AREAS, PreferenceUtils.getSessionCookie(getActivity()));
                 mAreaList = new ArrayList<>();
                 Log.d(TAG, "doInBackground: " + jsonString);
@@ -91,6 +119,9 @@ public class AreasListFragment extends Fragment {
                         @Override
                         public void run() {
                             mRecyclerView.setAdapter(new AreasRecyclerViewAdapter(mAreaList, mListener));
+                            if (mSwipeRefresh != null) {
+                                mSwipeRefresh.setRefreshing(false);
+                            }
                         }
                     });
                 }

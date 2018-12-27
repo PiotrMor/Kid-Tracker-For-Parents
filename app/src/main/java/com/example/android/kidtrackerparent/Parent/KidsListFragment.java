@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +41,7 @@ public class KidsListFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private List<Kid> mKidList = new ArrayList<>();
     private View mRootView;
+    private SwipeRefreshLayout mSwipeRefresh;
 
     private RecyclerView mRecyclerView;
 
@@ -74,7 +76,7 @@ public class KidsListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_kids_list, container, false);
         mRootView = view;
         // Set the adapter
-
+        addRefreshOnSwap();
         Context context = view.getContext();
         mRecyclerView = view.findViewById(R.id.kids_recycler_view);
         if (mRecyclerView == null) {
@@ -90,6 +92,17 @@ public class KidsListFragment extends Fragment {
 
 
         return view;
+    }
+
+    private void addRefreshOnSwap() {
+        mSwipeRefresh = mRootView.findViewById(R.id.srl_kids_list);
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                populateKidList();
+                Log.d(TAG, "onRefresh:  działa");
+            }
+        });
     }
 
     private void addFABOnClick() {
@@ -143,6 +156,9 @@ public class KidsListFragment extends Fragment {
                         @Override
                         public void run() {
                             mRecyclerView.setAdapter(new KidsRecyclerViewAdapter(mKidList, mListener));
+                            if (mSwipeRefresh != null) {
+                                mSwipeRefresh.setRefreshing(false);
+                            }
                         }
                     });
                 }
