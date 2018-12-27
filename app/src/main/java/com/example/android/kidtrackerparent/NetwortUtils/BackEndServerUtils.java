@@ -33,6 +33,7 @@ public class BackEndServerUtils {
     public static final String SERVER_GET_CHILDREN = SERVER_URL + "api/parent/children";
     public static final String SERVER_ADD_CHILDREN = SERVER_URL + "api/parent/children";
     public static final String SERVER_UPDATE_CHILDREN = SERVER_ADD_CHILDREN + "/id";
+    public static final String SERVER_GET_AREAS = SERVER_URL + "api/parent/areas";
 
 
     //URL's for kid app

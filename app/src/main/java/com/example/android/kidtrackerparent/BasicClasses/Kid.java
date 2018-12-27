@@ -30,7 +30,9 @@ public class Kid {
         return name;
     }
 
-
+    public String getEmail() {
+        return email;
+    }
 
     @Override
     public String toString() {
