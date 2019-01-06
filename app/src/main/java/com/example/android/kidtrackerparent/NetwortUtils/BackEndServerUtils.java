@@ -44,11 +44,8 @@ public class BackEndServerUtils {
     public static final String NO_COOKIES = "0 cookies";
 
 
-
-
-
     public static ResponseTuple performPostCall(String requestURL,
-                                  HashMap<String, String> postDataParams, String sessionCookie) {
+                                                JSONObject postDataParams, String sessionCookie) {
         String cookie = NO_COOKIES;
         URL url;
         String response = "";
@@ -68,8 +65,7 @@ public class BackEndServerUtils {
 
             OutputStream os = conn.getOutputStream();
             OutputStreamWriter writer = new OutputStreamWriter(os, "UTF-8");
-            writer.write(getPostDataString(postDataParams));
-            Log.d(TAG, "performPostCall: " +getPostDataString(postDataParams));
+            writer.write(postDataParams.toString());
 
             writer.flush();
             writer.close();
@@ -103,6 +99,18 @@ public class BackEndServerUtils {
         Log.d(TAG, requestURL + " " + response);
 
         return new ResponseTuple(response, cookie);
+
+    }
+
+
+    public static ResponseTuple performPostCall(String requestURL,
+                                  HashMap<String, String> postDataParams, String sessionCookie) {
+        try {
+            return performPostCall(requestURL, getPostDataJsonObject(postDataParams), sessionCookie);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static String performGetCall(String requestURl, String cookie) {
@@ -125,6 +133,7 @@ public class BackEndServerUtils {
                     new InputStreamReader(conn.getInputStream()));
             String inputLine;
             StringBuffer response = new StringBuffer();
+            Log.d(TAG, "performGetCall: " + response);
             List<String> cookies = conn.getHeaderFields().get("Set-Cookie");
             Log.d(TAG, "performPostCall: " + cookies);
 
@@ -141,7 +150,7 @@ public class BackEndServerUtils {
 
     }
 
-    private static String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
-        return new JSONObject(params).toString();
+    private static JSONObject getPostDataJsonObject(HashMap<String, String> params) throws UnsupportedEncodingException {
+        return new JSONObject(params);
     }
 }

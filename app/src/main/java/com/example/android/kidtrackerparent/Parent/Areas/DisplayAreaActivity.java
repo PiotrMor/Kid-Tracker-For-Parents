@@ -1,16 +1,14 @@
-package com.example.android.kidtrackerparent.Parent;
+package com.example.android.kidtrackerparent.Parent.Areas;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.R;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -45,6 +43,7 @@ public class DisplayAreaActivity extends AppCompatActivity implements OnMapReady
         Log.d(TAG, "onMapReady: " + position);
         mMap.addMarker(new MarkerOptions().position(position).title(mArea.getName())).showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 17));
+
         CircleOptions circleOptions =  new CircleOptions()
                 .center(position)
                 .radius(mArea.getRadius())

@@ -4,4 +4,20 @@
         <item>@string/color_red_label</item>
         <item>@string/color_blue_label</item>
     </string-array>
+
+    <array name="area_icons">
+        <item>@drawable/ic_home_black_24dp</item>
+        <item>@drawable/ic_business_black_24dp</item>
+        <item>@drawable/ic_work_black_24dp</item>
+        <item>@drawable/ic_book_black_24dp</item>
+    </array>
+
+    <string-array name="area_labels">
+        <item>@string/area_home_icon</item>
+        <item>@string/area_building_icon</item>
+        <item>@string/area_workplace_icon</item>
+        <item>@string/area_book_icon</item>
+    </string-array>
+
+
 </resources>

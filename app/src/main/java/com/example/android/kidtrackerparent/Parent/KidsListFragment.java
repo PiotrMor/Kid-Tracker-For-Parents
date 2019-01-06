@@ -142,6 +142,7 @@ public class KidsListFragment extends Fragment {
 
                 String jsonString = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GET_CHILDREN, PreferenceUtils.getSessionCookie(getActivity()));
                 mKidList = new ArrayList<>();
+                Log.d(TAG, "doInBackground: kids " + jsonString);
                 try {
                     JSONArray jsonArray = new JSONArray(jsonString);
                     for (int i = 0; i < jsonArray.length(); i++) {

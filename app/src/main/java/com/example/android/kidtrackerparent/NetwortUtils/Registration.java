@@ -14,15 +14,17 @@ public class Registration extends AsyncTask<Void, Void, ResponseTuple> {
     private String email;
     private String password;
     private AccountType accountType;
+    private String firebaseToken;
     public AsyncResponse delegate = null;
 
-    public Registration(@NonNull String firstName, @NonNull String secondName, @NonNull String email, @NonNull String password, @NonNull AccountType accountType, @NonNull AsyncResponse asyncResponse) {
+    public Registration(@NonNull String firstName, @NonNull String secondName, @NonNull String email, @NonNull String password, @NonNull AccountType accountType, @NonNull String firebaseToken, @NonNull AsyncResponse asyncResponse) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
         this.password = password;
         this.accountType = accountType;
         this.delegate = asyncResponse;
+        this.firebaseToken = firebaseToken;
     }
 
     @Override
@@ -48,6 +50,7 @@ public class Registration extends AsyncTask<Void, Void, ResponseTuple> {
         params.put("lastName", secondName);
         params.put("password", password);
         params.put("email", email);
+        params.put("firebaseToken", firebaseToken);
         return params;
     }
 

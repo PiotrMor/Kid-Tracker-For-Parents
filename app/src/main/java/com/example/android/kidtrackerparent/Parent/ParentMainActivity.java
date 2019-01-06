@@ -1,7 +1,6 @@
 package com.example.android.kidtrackerparent.Parent;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,16 +15,10 @@ import android.view.MenuItem;
 import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.LoginActivity;
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.Parent.Areas.AreasListFragment;
+import com.example.android.kidtrackerparent.Parent.Areas.DisplayAreaActivity;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ParentMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, KidsListFragment.OnListFragmentInteractionListener, AreasListFragment.OnListFragmentInteractionListener {

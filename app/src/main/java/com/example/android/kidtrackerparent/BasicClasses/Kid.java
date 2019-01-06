@@ -9,6 +9,7 @@ public class Kid {
     private final String id;
     private String name;
     private String email;
+    private String color;
 
     public Kid(String id, String name) {
         this.id = id;
@@ -20,6 +21,7 @@ public class Kid {
         this.id = JSONUtils.getUserIdFromJson(jsonObject);
         this.name = JSONUtils.getValueFromJson(jsonObject, "name");
         this.email = JSONUtils.getValueFromJson(jsonObject, "email");
+        this.color = JSONUtils.getValueFromJson(jsonObject, "iconColor");
     }
 
     public String getId() {
@@ -32,6 +34,10 @@ public class Kid {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     @Override

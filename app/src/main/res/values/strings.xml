@@ -52,5 +52,21 @@
 
     <string name="color_blue_label">Niebieski</string>
     <string name="color_red_label">Czerwony</string>
+    <string name="search">Szukaj</string>
+    <string name="confirm_area_label">Zatwierdź</string>
+    <string name="cancel_area_label">Anuluj</string>
+    <string name="back_label">Cofnij</string>
+    <string name="msg_token_fmt" />
+    <string name="save_area_label">Zapisz obszar</string>
+    <string name="area_name_placeholder">Nazwa</string>
+    <string name="area_icon_desc">Area icon</string>
 
+
+    <!-- List of area icons -->
+    <string name="area_home_icon">Dom</string>
+    <string name="area_building_icon">Budynek</string>
+    <string name="area_workplace_icon">Praca</string>
+    <string name="area_book_icon">Książka</string>
+    <string name="select_kids_spinner_label">Wybierz dzieci</string>
+    <string name="save_area_button_label">Zapisz</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.android.kidtrackerparent.Parent;
+package com.example.android.kidtrackerparent.Parent.Areas;
 
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +50,9 @@ public class AreasListFragment extends Fragment {
         mRootView = view;
         addRefreshOnSwap();
         Context context = view.getContext();
+
         mRecyclerView = view.findViewById(R.id.areas_recycler_view);
+
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         populateAreaList();
@@ -63,8 +65,8 @@ public class AreasListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(getActivity(), AddAreaActivity.class);
-                startActivity(intent);*/
+                Intent intent = new Intent(getActivity(), SelectCustomAreaActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -105,7 +107,7 @@ public class AreasListFragment extends Fragment {
                 String jsonString = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GET_AREAS, PreferenceUtils.getSessionCookie(getActivity()));
                 mAreaList = new ArrayList<>();
                 Log.d(TAG, "doInBackground: " + jsonString);
-                try {
+                /*try {
                     JSONArray jsonArray = new JSONArray(jsonString);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject json = jsonArray.getJSONObject(i);
@@ -124,7 +126,7 @@ public class AreasListFragment extends Fragment {
                             }
                         }
                     });
-                }
+                }*/
                 return null;
             }
         }.execute();
