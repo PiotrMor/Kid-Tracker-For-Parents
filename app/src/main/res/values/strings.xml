@@ -69,4 +69,5 @@
     <string name="area_book_icon">Książka</string>
     <string name="select_kids_spinner_label">Wybierz dzieci</string>
     <string name="save_area_button_label">Zapisz</string>
+    <string name="select_color_title">Wybierz kolor:</string>
 </resources>

@@ -47,6 +47,15 @@ public class SelectCustomAreaActivity extends AppCompatActivity implements OnMap
     private Button mBackButton;
     private Polygon mPolygon;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (mPolygon != null) {
+            mConfirmButton.setVisibility(View.VISIBLE);
+            mCancelButton.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,6 +111,7 @@ public class SelectCustomAreaActivity extends AppCompatActivity implements OnMap
             }
         });
 
+        
 
         mConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override

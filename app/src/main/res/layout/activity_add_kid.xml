@@ -43,14 +43,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_add_kid" />
 
-        <Spinner
-            android:id="@+id/spinner_colors"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            app:layout_constraintStart_toStartOf="@id/et_kid_code"
-            app:layout_constraintTop_toBottomOf="@+id/et_kid_code" />
-
         <EditText
             android:id="@+id/et_kid_code"
             android:layout_width="0dp"
@@ -64,16 +56,28 @@
             app:layout_constraintStart_toStartOf="@+id/et_kid_name"
             app:layout_constraintTop_toBottomOf="@+id/et_kid_name" />
 
+        <TextView
+            android:id="@+id/tv_icon_preview"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            tools:text="J"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/circle"
+            app:layout_constraintStart_toStartOf="@+id/et_kid_code"
+            app:layout_constraintTop_toBottomOf="@+id/et_kid_code" />
+
         <Button
             android:id="@+id/button_add_kid"
             android:layout_width="152dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="@string/add_button_label"
+            android:layout_marginTop="8dp"
             android:onClick="onAddButtonClicked"
-
+            android:text="@string/add_button_label"
             app:layout_constraintEnd_toEndOf="@+id/et_kid_code"
-            app:layout_constraintTop_toBottomOf="@+id/spinner_colors" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_icon_preview" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

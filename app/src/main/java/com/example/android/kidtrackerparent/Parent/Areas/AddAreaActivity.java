@@ -104,6 +104,8 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
         });
     }
 
+
+
     private void sendAreaToServer() {
         new AsyncTask() {
 
