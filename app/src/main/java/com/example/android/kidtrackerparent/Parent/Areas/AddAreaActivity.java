@@ -1,5 +1,6 @@
 package com.example.android.kidtrackerparent.Parent.Areas;
 
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,11 +14,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
+import com.example.android.kidtrackerparent.Utils.Parsers;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
-import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +36,7 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
 
     public final static String TAG = AddAreaActivity.class.getSimpleName();
 
-    private Polygon mPolygon;
+    private ArrayList<LatLng> mArea;
     private String mAreaName;
     private ArrayList<Kid> mChosenKids;
 
@@ -50,6 +53,7 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
     private final String KEY_NAME = "name";
     private final String KEY_ICON_ID = "iconId";
     private final String KEY_CHILDREN = "children";
+    private final String KEY_AREA = "area";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +69,16 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
         AreaSpinnerAdapter adapter = new AreaSpinnerAdapter(this, mIconList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerIcons.setAdapter(adapter);
+        mArea = getAreaFromIntent();
+        Log.d(TAG, "onCreate: " + mArea);
+    }
+
+    private ArrayList<LatLng> getAreaFromIntent() {
+        Intent intent = getIntent();
+        ArrayList<Area.SerializableLatLng> serializableLatLngs =
+                intent.getParcelableArrayListExtra(SelectCustomAreaActivity.INTENT_EXTRA_KEY_AREA);
+
+        return Parsers.parseLatLngListFromSerializable(serializableLatLngs);
     }
 
     private void setViewReferences() {
@@ -114,6 +128,12 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
                 Map<String, String> params = new HashMap<>();
                 params.put(KEY_NAME, mAreaName);
                 params.put(KEY_ICON_ID, "home");
+                JSONArray area = null;
+                try {
+                    area = Parsers.parseLatLngListToJsonArray(mArea);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 JSONArray kidsArray = new JSONArray();
                 for (Kid kid : mChosenKids) {
                     kidsArray.put(kid.getId());
@@ -121,6 +141,7 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
                 JSONObject paramsJson = new JSONObject(params);
                 try {
                     paramsJson.put(KEY_CHILDREN, kidsArray);
+                    paramsJson.put(KEY_AREA, area);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     displayToastMessage("Coś nie tak");
@@ -206,4 +227,6 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
         mToast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         mToast.show();
     }
+
+
 }

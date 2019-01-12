@@ -63,11 +63,11 @@
             </intent-filter>
         </service>
 
-<!--        <service android:name=".java.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>-->
+        <!--        <service android:name=".java.MyFirebaseMessagingService">
+                    <intent-filter>
+                        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                    </intent-filter>
+                </service>-->
 
         <activity android:name=".RegisterActivity">
             <meta-data
@@ -111,6 +111,13 @@
         </activity>
         <activity
             android:name=".Parent.Areas.SelectCustomAreaActivity"
+            android:parentActivityName=".Parent.ParentMainActivity">
+            <meta-data
+                android:name=".android.support.PARENT_ACTIVITY"
+                android:value=".Parent.ParentMainActivity" />
+        </activity>
+        <activity
+            android:name=".Parent.Rules.AddRuleActivity"
             android:parentActivityName=".Parent.ParentMainActivity">
             <meta-data
                 android:name=".android.support.PARENT_ACTIVITY"

@@ -107,11 +107,12 @@ public class AreasListFragment extends Fragment {
                 String jsonString = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GET_AREAS, PreferenceUtils.getSessionCookie(getActivity()));
                 mAreaList = new ArrayList<>();
                 Log.d(TAG, "doInBackground: " + jsonString);
-                /*try {
+                try {
                     JSONArray jsonArray = new JSONArray(jsonString);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject json = jsonArray.getJSONObject(i);
                         mAreaList.add(new Area(json));
+                        Log.d(TAG, "doInBackground: " + new Area(json));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -120,13 +121,13 @@ public class AreasListFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mRecyclerView.setAdapter(new AreasRecyclerViewAdapter(mAreaList, mListener));
+                            mRecyclerView.setAdapter(new AreasRecyclerViewAdapter(getActivity(), mAreaList, mListener));
                             if (mSwipeRefresh != null) {
                                 mSwipeRefresh.setRefreshing(false);
                             }
                         }
                     });
-                }*/
+                }
                 return null;
             }
         }.execute();

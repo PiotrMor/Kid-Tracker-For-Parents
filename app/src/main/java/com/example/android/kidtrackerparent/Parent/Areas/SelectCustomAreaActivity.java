@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.R;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,6 +48,8 @@ public class SelectCustomAreaActivity extends AppCompatActivity implements OnMap
     private Button mCancelButton;
     private Button mBackButton;
     private Polygon mPolygon;
+
+    public static final String INTENT_EXTRA_KEY_AREA = "area";
 
     @Override
     protected void onStart() {
@@ -129,8 +133,9 @@ public class SelectCustomAreaActivity extends AppCompatActivity implements OnMap
                     mCancelButton.setVisibility(View.INVISIBLE);
                     mConfirmButton.setVisibility(View.INVISIBLE);
                     Intent intent = new Intent(SelectCustomAreaActivity.this, AddAreaActivity.class);
+                    intent.putParcelableArrayListExtra(INTENT_EXTRA_KEY_AREA
+                                        , createSerializableListOfPoints(mPolygon.getPoints()));
                     startActivity(intent);
-                    // TODO coś tu zrobić
                 }
             }
 
@@ -215,5 +220,13 @@ public class SelectCustomAreaActivity extends AppCompatActivity implements OnMap
                 }
             }
         });
+    }
+
+    private ArrayList<Area.SerializableLatLng> createSerializableListOfPoints(List<LatLng> latLngList) {
+        ArrayList<Area.SerializableLatLng> serializableList = new ArrayList<>();
+        for(LatLng latLng : latLngList) {
+            serializableList.add(new Area.SerializableLatLng(latLng.latitude, latLng.longitude));
+        }
+        return serializableList;
     }
 }
