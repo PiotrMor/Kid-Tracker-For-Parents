@@ -2,9 +2,6 @@ package com.example.android.kidtrackerparent.Parent.Areas;
 
 import android.app.ActionBar;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +14,6 @@ import android.widget.Toast;
 
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

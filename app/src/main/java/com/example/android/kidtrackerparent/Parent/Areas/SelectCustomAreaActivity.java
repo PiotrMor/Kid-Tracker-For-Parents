@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.android.kidtrackerparent.BasicClasses.Area;
+import com.example.android.kidtrackerparent.BasicClasses.SerializableLatLng;
 import com.example.android.kidtrackerparent.R;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -222,10 +223,10 @@ public class SelectCustomAreaActivity extends AppCompatActivity implements OnMap
         });
     }
 
-    private ArrayList<Area.SerializableLatLng> createSerializableListOfPoints(List<LatLng> latLngList) {
-        ArrayList<Area.SerializableLatLng> serializableList = new ArrayList<>();
+    private ArrayList<SerializableLatLng> createSerializableListOfPoints(List<LatLng> latLngList) {
+        ArrayList<SerializableLatLng> serializableList = new ArrayList<>();
         for(LatLng latLng : latLngList) {
-            serializableList.add(new Area.SerializableLatLng(latLng.latitude, latLng.longitude));
+            serializableList.add(new SerializableLatLng(latLng.latitude, latLng.longitude));
         }
         return serializableList;
     }

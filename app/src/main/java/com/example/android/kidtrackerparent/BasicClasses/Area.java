@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.android.kidtrackerparent.Utils.JSONUtils;
+import com.example.android.kidtrackerparent.Utils.Parsers;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -35,7 +36,7 @@ public class Area implements Serializable {
         try {
             JSONObject location = jsonObject.getJSONObject("location");
             JSONArray array = location.getJSONArray("coordinates");
-            mPositionPoints = parseJsonArrayToList(array);
+            mPositionPoints = Parsers.parseJsonArrayToLatLngList(array);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -66,14 +67,7 @@ public class Area implements Serializable {
         return list;
     }
 
-    private List parseJsonArrayToList(JSONArray array) throws JSONException {
-        List<SerializableLatLng> positions = new ArrayList<>();
-        for (int i = 0; i < array.length(); i++) {
-            JSONObject positionJson = array.getJSONObject(i);
-            positions.add(new SerializableLatLng(positionJson.getDouble("lat"), positionJson.getDouble("lng")));
-        }
-        return positions;
-    }
+
 
     @Override
     public String toString() {
@@ -83,59 +77,4 @@ public class Area implements Serializable {
                 '}';
     }
 
-    public static class SerializableLatLng implements Serializable, Parcelable {
-        double latitude;
-        double longitude;
-
-        public SerializableLatLng(double latitude, double longitude) {
-            this.latitude = latitude;
-            this.longitude = longitude;
-        }
-
-        protected SerializableLatLng(Parcel in) {
-            latitude = in.readDouble();
-            longitude = in.readDouble();
-        }
-
-        public static final Creator<SerializableLatLng> CREATOR = new Creator<SerializableLatLng>() {
-            @Override
-            public SerializableLatLng createFromParcel(Parcel in) {
-                return new SerializableLatLng(in);
-            }
-
-            @Override
-            public SerializableLatLng[] newArray(int size) {
-                return new SerializableLatLng[size];
-            }
-        };
-
-        public double getLatitude() {
-            return latitude;
-        }
-
-        public double getLongitude() {
-            return longitude;
-        }
-
-
-
-        @Override
-        public String toString() {
-            return "SerializableLatLng{" +
-                    "lat=" + latitude +
-                    ", lng=" + longitude +
-                    '}';
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeDouble(latitude);
-            dest.writeDouble(longitude);
-        }
-    }
 }

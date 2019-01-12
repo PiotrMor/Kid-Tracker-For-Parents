@@ -6,6 +6,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -14,11 +15,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 public class KidLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private Kid mKid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kid_location);
+
+        if (getIntent().hasExtra(ParentMainActivity.INTENT_EXTRA_KEY_KID)) {
+            mKid = (Kid) getIntent().getSerializableExtra(ParentMainActivity.INTENT_EXTRA_KEY_KID);
+        }
+
         SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_kid_location);
         fragment.getMapAsync(this);
     }

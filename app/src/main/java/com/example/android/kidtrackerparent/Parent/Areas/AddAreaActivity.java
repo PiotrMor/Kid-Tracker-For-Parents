@@ -14,8 +14,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
+import com.example.android.kidtrackerparent.BasicClasses.SerializableLatLng;
 import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.Parsers;
@@ -75,10 +75,10 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
 
     private ArrayList<LatLng> getAreaFromIntent() {
         Intent intent = getIntent();
-        ArrayList<Area.SerializableLatLng> serializableLatLngs =
+        ArrayList<SerializableLatLng> serializableLatLngList =
                 intent.getParcelableArrayListExtra(SelectCustomAreaActivity.INTENT_EXTRA_KEY_AREA);
 
-        return Parsers.parseLatLngListFromSerializable(serializableLatLngs);
+        return Parsers.parseLatLngListFromSerializable(serializableLatLngList);
     }
 
     private void setViewReferences() {
