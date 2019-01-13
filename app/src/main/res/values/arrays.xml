@@ -4,4 +4,41 @@
         <item>@string/color_red_label</item>
         <item>@string/color_blue_label</item>
     </string-array>
+
+    <array name="area_icons">
+        <item>@drawable/ic_home_black_24dp</item>
+        <item>@drawable/ic_business_black_24dp</item>
+        <item>@drawable/ic_work_black_24dp</item>
+        <item>@drawable/ic_book_black_24dp</item>
+    </array>
+
+    <string-array name="area_labels">
+        <item>@string/area_home_icon</item>
+        <item>@string/area_building_icon</item>
+        <item>@string/area_workplace_icon</item>
+        <item>@string/area_book_icon</item>
+    </string-array>
+
+    <array name="picker_colors">
+        <item>@color/color1</item>
+        <item>@color/color2</item>
+        <item>@color/color3</item>
+        <item>@color/color4</item>
+        <item>@color/color5</item>
+        <item>@color/color6</item>
+        <item>@color/color7</item>
+        <item>@color/color8</item>
+        <item>@color/color9</item>
+        <item>@color/color10</item>
+        <item>@color/color11</item>
+        <item>@color/color12</item>
+        <item>@color/color13</item>
+        <item>@color/color14</item>
+        <item>@color/color15</item>
+        <item>@color/color16</item>
+        <item>@color/color17</item>
+        <item>@color/color18</item>
+    </array>
+
+
 </resources>

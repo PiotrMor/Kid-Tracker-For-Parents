@@ -1,6 +1,7 @@
 package com.example.android.kidtrackerparent;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,12 @@ import android.widget.Toast;
 import com.example.android.kidtrackerparent.Enums.AccountType;
 import com.example.android.kidtrackerparent.NetwortUtils.Registration;
 import com.example.android.kidtrackerparent.NetwortUtils.ResponseTuple;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class RegisterActivity extends AppCompatActivity implements Registration.AsyncResponse {
 
@@ -26,6 +33,8 @@ public class RegisterActivity extends AppCompatActivity implements Registration.
     private AccountType mAccountType;
     private Button mRegisterButton;
 
+    private String mFirebaseToken;
+
     private boolean isInputDataCorrect = true;
 
     @Override
@@ -33,6 +42,8 @@ public class RegisterActivity extends AppCompatActivity implements Registration.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        FirebaseApp.initializeApp(this);
+        getFirebaseToken();
 
         setReferencesToViews();
         addRegisterButtonOnClick();
@@ -62,8 +73,46 @@ public class RegisterActivity extends AppCompatActivity implements Registration.
     }
 
     private void registerUser() {
-        Registration registration = new Registration(getText(mName), getText(mSurname), getText(mEmail), getText(mPassword), mAccountType, this);
+        Registration registration = new Registration(
+                getText(mName),
+                getText(mSurname),
+                getText(mEmail),
+                getText(mPassword),
+                mAccountType,
+                mFirebaseToken,
+                this);
         registration.execute();
+    }
+
+    void getFirebaseToken() {
+        FirebaseMessaging.getInstance().subscribeToTopic("kidLocation")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: sub");
+                        }
+                    }
+                });
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        mFirebaseToken = task.getResult().getToken();
+                        Log.d(TAG, "onComplete: token: " + mFirebaseToken );
+                        // Log and toast
+                        //String msg = getString(R.string.msg_token_fmt, token);
+                        //Log.d(TAG, msg);
+                        Toast.makeText(RegisterActivity.this, "Dodano token", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private String getText(EditText view) {

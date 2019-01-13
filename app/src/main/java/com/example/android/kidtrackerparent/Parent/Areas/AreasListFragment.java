@@ -1,4 +1,4 @@
-package com.example.android.kidtrackerparent.Parent;
+package com.example.android.kidtrackerparent.Parent.Areas;
 
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +50,9 @@ public class AreasListFragment extends Fragment {
         mRootView = view;
         addRefreshOnSwap();
         Context context = view.getContext();
+
         mRecyclerView = view.findViewById(R.id.areas_recycler_view);
+
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         populateAreaList();
@@ -63,8 +65,8 @@ public class AreasListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(getActivity(), AddAreaActivity.class);
-                startActivity(intent);*/
+                Intent intent = new Intent(getActivity(), SelectCustomAreaActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -110,6 +112,7 @@ public class AreasListFragment extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject json = jsonArray.getJSONObject(i);
                         mAreaList.add(new Area(json));
+                        Log.d(TAG, "doInBackground: " + new Area(json));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -118,7 +121,7 @@ public class AreasListFragment extends Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mRecyclerView.setAdapter(new AreasRecyclerViewAdapter(mAreaList, mListener));
+                            mRecyclerView.setAdapter(new AreasRecyclerViewAdapter(getActivity(), mAreaList, mListener));
                             if (mSwipeRefresh != null) {
                                 mSwipeRefresh.setRefreshing(false);
                             }

@@ -1,23 +1,26 @@
-package com.example.android.kidtrackerparent.Parent;
+package com.example.android.kidtrackerparent.Parent.Areas;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.R;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+
+import java.util.List;
 
 public class DisplayAreaActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -25,6 +28,7 @@ public class DisplayAreaActivity extends AppCompatActivity implements OnMapReady
 
     private GoogleMap mMap;
     private Area mArea;
+    private Polygon mPolygon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,18 +45,41 @@ public class DisplayAreaActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng position = new LatLng(mArea.getLatitude(), mArea.getLongitude());
-        Log.d(TAG, "onMapReady: " + position);
-        mMap.addMarker(new MarkerOptions().position(position).title(mArea.getName())).showInfoWindow();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, 17));
-        CircleOptions circleOptions =  new CircleOptions()
-                .center(position)
-                .radius(mArea.getRadius())
-                .fillColor(0x40ff0000)
-                .strokeColor(Color.RED)
-                .strokeWidth(5);
+        drawAreaOnMap();
 
-        mMap.addCircle(circleOptions);
+        mMap.addMarker(new MarkerOptions().position(getPolygonCenter(mPolygon)).title(mArea.getName())).showInfoWindow();
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(getPolygonCenter(mPolygon), 18));
+
+    }
+
+
+    private void drawAreaOnMap() {
+        PolygonOptions polygonOptions = new PolygonOptions().strokeColor(Color.RED).fillColor(0x40ff0000).strokeWidth(5);
+        polygonOptions.addAll(mArea.getLatLngList());
+         mPolygon = mMap.addPolygon(polygonOptions);
+    }
+
+    private LatLng getPolygonCenter (Polygon polygon) {
+        // x1 - lowest x coordinate, x2 - highest x coordinate, y1 - lowest y coordinate, y2 - highest y coordinate
+        Double x1 = null, x2 = null, y1 = null, y2 = null;
+        for (LatLng point: polygon.getPoints()) {
+            if (x1 == null || point.latitude < x1) {
+                x1 = point.latitude;
+            }
+
+            if (x2 == null || point.latitude > x2) {
+                x2 = point.latitude;
+            }
+
+            if (y1 == null || point.longitude < y1) {
+                y1 = point.longitude;
+            }
+
+            if (y2 == null || point.longitude > y2) {
+                y2 = point.longitude;
+            }
+        }
+        return new LatLng(x1 + ((x2 - x1) / 2), y1 + ((y2 - y1) / 2));
     }
 
     @Override
@@ -65,4 +92,6 @@ public class DisplayAreaActivity extends AppCompatActivity implements OnMapReady
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }

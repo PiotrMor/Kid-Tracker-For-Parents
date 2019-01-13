@@ -121,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 protected Object doInBackground(Object[] objects) {
                     String response = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_CURRENT_USER, PreferenceUtils.getSessionCookie(LoginActivity.this));
-                    if (!response.equals("")){
+                    if (!response.isEmpty()){
                         navigateToNextActivity(response);
                     } else {
                         mConstraintLayout.setVisibility(View.VISIBLE);
@@ -146,8 +146,6 @@ public class LoginActivity extends AppCompatActivity {
 
             String responseBody = response.getResponse();
             String responseCookie = response.getCookie();
-            
-            retrieveIdFromResponse(responseBody);
 
             if (!responseCookie.equals(BackEndServerUtils.NO_COOKIES)) {
                 saveSessionIdAndAccountType(responseCookie);
@@ -170,13 +168,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void retrieveIdFromResponse(String responseBody) {
-        try {
-            Log.d(TAG, "retrieveIdFromResponse:  " + JSONUtils.getUserIdFromJson(new JSONObject(responseBody)));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     private void saveSessionIdAndAccountType(String responseCookie) {
         setSession(responseCookie);

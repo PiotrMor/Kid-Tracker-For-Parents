@@ -1,41 +1,66 @@
 package com.example.android.kidtrackerparent.BasicClasses;
 
 import com.example.android.kidtrackerparent.Utils.JSONUtils;
+import com.example.android.kidtrackerparent.Utils.Parsers;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Kid {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-    private final String id;
-    private String name;
-    private String email;
+public class Kid implements Serializable {
+
+    private String mId;
+    private String mName;
+    private String mEmail;
+    private String mColor;
+    private double mLongitude;
+    private double mLatitude;
 
     public Kid(String id, String name) {
-        this.id = id;
-        this.name = name;
+        this.mId = id;
+        this.mName = name;
     }
 
 
     public Kid(JSONObject jsonObject) {
-        this.id = JSONUtils.getUserIdFromJson(jsonObject);
-        this.name = JSONUtils.getValueFromJson(jsonObject, "name");
-        this.email = JSONUtils.getValueFromJson(jsonObject, "email");
+        this.mId = JSONUtils.getUserIdFromJson(jsonObject);
+        this.mName = JSONUtils.getValueFromJson(jsonObject, "name");
+        this.mEmail = JSONUtils.getValueFromJson(jsonObject, "email");
+        this.mColor = JSONUtils.getValueFromJson(jsonObject, "iconColor");
+
+        try {
+            JSONObject location = jsonObject.getJSONObject("location");
+            JSONArray array = location.getJSONArray("coordinates");
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getId() {
-        return id;
+        return mId;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public String getEmail() {
-        return email;
+        return mEmail;
     }
+
+    public String getColor() {
+        return mColor;
+    }
+
 
     @Override
     public String toString() {
-        return id + " " + name;
+        return mId + " " + mName;
     }
 }

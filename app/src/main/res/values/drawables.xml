@@ -5,4 +5,9 @@
     <item name="ic_menu_manage" type="drawable">@android:drawable/ic_menu_manage</item>
     <item name="ic_menu_share" type="drawable">@android:drawable/ic_menu_share</item>
     <item name="ic_menu_send" type="drawable">@android:drawable/ic_menu_send</item>
+
+    <item name="home" type="drawable">@drawable/ic_home_black_24dp</item>
+    <item name="work" type="drawable">@drawable/ic_work_black_24dp</item>
+    <item name="building" type="drawable">@drawable/ic_business_black_24dp</item>
+    <item name="book" type="drawable">@drawable/ic_book_black_24dp</item>
 </resources>
