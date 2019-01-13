@@ -13,8 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.android.kidtrackerparent.Enums.AccountType;
-import com.example.android.kidtrackerparent.NetwortUtils.Registration;
-import com.example.android.kidtrackerparent.NetwortUtils.ResponseTuple;
+import com.example.android.kidtrackerparent.NetworkUtils.Registration;
+import com.example.android.kidtrackerparent.NetworkUtils.ResponseTuple;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;

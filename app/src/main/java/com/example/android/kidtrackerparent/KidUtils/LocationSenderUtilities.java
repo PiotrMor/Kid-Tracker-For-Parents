@@ -9,6 +9,7 @@ import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
 
 import java.util.concurrent.TimeUnit;
@@ -35,6 +36,7 @@ public class LocationSenderUtilities {
                 .setTag(JOB_TAG)
                 .setLifetime(Lifetime.FOREVER)
                 .setRecurring(true)
+                .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setTrigger(Trigger.executionWindow(INTERVAL_MINUTES,FLEXTIME_SECONDS))
                 .build();
 
@@ -47,6 +49,7 @@ public class LocationSenderUtilities {
         Driver driver = new GooglePlayDriver(context);
         FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
         dispatcher.cancel(JOB_TAG);
+        sInitialized = false;
         Log.d(TAG, "cancelSendingLocation: anulowano");
     }
 }

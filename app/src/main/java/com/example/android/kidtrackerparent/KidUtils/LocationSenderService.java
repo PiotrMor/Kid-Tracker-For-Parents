@@ -1,31 +1,24 @@
 package com.example.android.kidtrackerparent.KidUtils;
 
-import android.app.IntentService;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Intent;
 import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.LocationUtils;
-import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
-import com.google.android.gms.location.LocationServices;
 
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 public class LocationSenderService extends JobService {
     public final static String TAG = LocationSenderService.class.getSimpleName();
     private static final String NOTIFICATION_CHANNEL_ID = "default channel";
 
+    private SendLocationToServerAsync mBackgroundTask;
 
     @Override
     public boolean onStartJob(final JobParameters job) {
@@ -36,7 +29,7 @@ public class LocationSenderService extends JobService {
             params.put("longitude", location.getLatitude() + "");
             sendNotification(params + " dziala");
 
-            SendLocationToServerAsync mBackgroundTask = new SendLocationToServerAsync();
+            mBackgroundTask = new SendLocationToServerAsync();
             mBackgroundTask.execute(this);
         }
 
@@ -45,7 +38,9 @@ public class LocationSenderService extends JobService {
 
     @Override
     public boolean onStopJob(JobParameters job) {
-
+        if (mBackgroundTask != null) {
+            mBackgroundTask.cancel(true);
+        }
         return true;
     }
 

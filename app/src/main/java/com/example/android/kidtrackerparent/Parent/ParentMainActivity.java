@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.LoginActivity;
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.Parent.Areas.AreasListFragment;
 import com.example.android.kidtrackerparent.Parent.Areas.DisplayAreaActivity;
 import com.example.android.kidtrackerparent.R;

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.location.Location;
 import android.os.AsyncTask;
 
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
-import com.example.android.kidtrackerparent.NetwortUtils.ResponseTuple;
+import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.ResponseTuple;
 import com.example.android.kidtrackerparent.Utils.LocationUtils;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 

@@ -1,4 +1,4 @@
-package com.example.android.kidtrackerparent.NetwortUtils;
+package com.example.android.kidtrackerparent.NetworkUtils;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;

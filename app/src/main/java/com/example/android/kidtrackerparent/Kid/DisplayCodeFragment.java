@@ -12,15 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.JSONUtils;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

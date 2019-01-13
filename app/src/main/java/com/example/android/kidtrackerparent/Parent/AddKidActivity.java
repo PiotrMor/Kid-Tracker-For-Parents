@@ -1,7 +1,6 @@
 package com.example.android.kidtrackerparent.Parent;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.v4.app.NavUtils;
@@ -19,8 +18,8 @@ import android.widget.Toast;
 
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
-import com.example.android.kidtrackerparent.NetwortUtils.ResponseTuple;
+import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.ResponseTuple;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 

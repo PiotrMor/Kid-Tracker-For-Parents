@@ -22,10 +22,9 @@ import android.widget.Toast;
 
 import com.example.android.kidtrackerparent.Enums.AccountType;
 import com.example.android.kidtrackerparent.Kid.KidMainActivity;
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
-import com.example.android.kidtrackerparent.NetwortUtils.ResponseTuple;
+import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.ResponseTuple;
 import com.example.android.kidtrackerparent.Parent.ParentMainActivity;
-import com.example.android.kidtrackerparent.Utils.JSONUtils;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -37,11 +36,7 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 
 /**
