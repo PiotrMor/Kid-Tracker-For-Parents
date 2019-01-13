@@ -118,6 +118,7 @@
                 android:name=".android.support.PARENT_ACTIVITY"
                 android:value=".Parent.ParentMainActivity" />
         </activity>
+
     </application>
 
 

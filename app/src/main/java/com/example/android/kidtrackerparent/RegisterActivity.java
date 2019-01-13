@@ -43,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity implements Registration.
         setContentView(R.layout.activity_register);
 
         FirebaseApp.initializeApp(this);
-        getFirebaseToken();
 
         setReferencesToViews();
         addRegisterButtonOnClick();
@@ -79,41 +78,11 @@ public class RegisterActivity extends AppCompatActivity implements Registration.
                 getText(mEmail),
                 getText(mPassword),
                 mAccountType,
-                mFirebaseToken,
                 this);
         registration.execute();
     }
 
-    void getFirebaseToken() {
-        FirebaseMessaging.getInstance().subscribeToTopic("kidLocation")
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "onComplete: sub");
-                        }
-                    }
-                });
 
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        mFirebaseToken = task.getResult().getToken();
-                        Log.d(TAG, "onComplete: token: " + mFirebaseToken );
-                        // Log and toast
-                        //String msg = getString(R.string.msg_token_fmt, token);
-                        //Log.d(TAG, msg);
-                        Toast.makeText(RegisterActivity.this, "Dodano token", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 
     private String getText(EditText view) {
         return view.getText().toString();

@@ -24,14 +24,17 @@ public class LocationSenderUtilities {
     private static final int FLEXTIME_SECONDS = 120;
 
     private static boolean sInitialized;
+    private static FirebaseJobDispatcher mDispatcher;
 
     synchronized public static void scheduleSendingLocation(@NonNull Context context) {
         if (sInitialized) return;
+        if (mDispatcher == null) {
+            Driver driver = new GooglePlayDriver(context);
+            mDispatcher = new FirebaseJobDispatcher(driver);
+        }
 
-        Driver driver = new GooglePlayDriver(context);
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
 
-        Job job = dispatcher.newJobBuilder()
+        Job job = mDispatcher.newJobBuilder()
                 .setService(LocationSenderService.class)
                 .setTag(JOB_TAG)
                 .setLifetime(Lifetime.FOREVER)
@@ -40,15 +43,14 @@ public class LocationSenderUtilities {
                 .setTrigger(Trigger.executionWindow(INTERVAL_MINUTES,FLEXTIME_SECONDS))
                 .build();
 
-        dispatcher.mustSchedule(job);
+        mDispatcher.mustSchedule(job);
         Log.d(TAG, "Start service");
         sInitialized = true;
     }
 
     synchronized public static void cancelSendingLocation(Context context) {
-        Driver driver = new GooglePlayDriver(context);
-        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
-        dispatcher.cancel(JOB_TAG);
+        mDispatcher.cancel(JOB_TAG);
+        mDispatcher.cancelAll();
         sInitialized = false;
         Log.d(TAG, "cancelSendingLocation: anulowano");
     }

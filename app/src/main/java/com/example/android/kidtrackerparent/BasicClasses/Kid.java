@@ -34,10 +34,10 @@ public class Kid implements Serializable {
 
         try {
             JSONObject location = jsonObject.getJSONObject("location");
-            JSONArray array = location.getJSONArray("coordinates");
-            JSONObject coordinates = array.getJSONObject(0);
-            mLatitude = coordinates.getDouble("lat");
-            mLongitude = coordinates.getDouble("lng");
+
+            JSONArray coordinates = location.getJSONArray("coordinates");
+            mLatitude = coordinates.getDouble(0);
+            mLongitude = coordinates.getDouble(1);
 
 
         } catch (JSONException e) {

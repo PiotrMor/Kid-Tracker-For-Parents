@@ -35,6 +35,9 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 
@@ -64,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     private AccountType mAccountType;
 
     private Toast mToast;
+    private String mFirebaseToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         setReferencesToViews();
         checkIfUserIsLoggedIn();
-
+        getFirebaseToken();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         mSignInButton.setOnClickListener(new OnClickListener() {
@@ -135,6 +139,10 @@ public class LoginActivity extends AppCompatActivity {
         HashMap<String, String> params = new HashMap<>();
         params.put("email", email);
         params.put("password", password);
+        if (mAccountType == AccountType.PARENT) {
+            params.put("firebaseToken", mFirebaseToken);
+        }
+
         String requestURL = getRequestURL();
         if (requestURL != null) {
             ResponseTuple response = BackEndServerUtils.performPostCall(requestURL, params, null);
@@ -304,6 +312,37 @@ public class LoginActivity extends AppCompatActivity {
         } else if (id == R.id.radio_parent) {
             mAccountType = AccountType.PARENT;
         }
+    }
+
+    void getFirebaseToken() {
+        FirebaseMessaging.getInstance().subscribeToTopic("kidLocation")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "onComplete: sub");
+                        }
+                    }
+                });
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        mFirebaseToken = task.getResult().getToken();
+                        Log.d(TAG, "onComplete: token: " + mFirebaseToken );
+                        // Log and toast
+                        //String msg = getString(R.string.msg_token_fmt, token);
+                        //Log.d(TAG, msg);
+                        Toast.makeText(LoginActivity.this, "Dodano token", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 }
