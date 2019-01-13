@@ -1,7 +1,9 @@
 package com.example.android.kidtrackerparent.Kid;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.android.kidtrackerparent.KidUtils.SendLocationToServerAsync;
+import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetwortUtils.ResponseTuple;
 import com.example.android.kidtrackerparent.R;
+import com.example.android.kidtrackerparent.Utils.LocationUtils;
+import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +30,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.HashMap;
 
 
 public class KidMapFragment extends Fragment implements OnMapReadyCallback {
@@ -52,6 +61,9 @@ public class KidMapFragment extends Fragment implements OnMapReadyCallback {
         getLocationPermission();
         SupportMapFragment fragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.fragment_kid_map);
         fragment.getMapAsync(this);
+        SendLocationToServerAsync task = new SendLocationToServerAsync();
+        task.execute(getActivity());
+
     }
 
     @Override

@@ -35,6 +35,9 @@ public class Kid implements Serializable {
         try {
             JSONObject location = jsonObject.getJSONObject("location");
             JSONArray array = location.getJSONArray("coordinates");
+            JSONObject coordinates = array.getJSONObject(0);
+            mLatitude = coordinates.getDouble("lat");
+            mLongitude = coordinates.getDouble("lng");
 
 
         } catch (JSONException e) {
@@ -58,6 +61,13 @@ public class Kid implements Serializable {
         return mColor;
     }
 
+    public double getLatitude() {
+        return mLatitude;
+    }
+
+    public double getLongitude() {
+        return mLongitude;
+    }
 
     @Override
     public String toString() {

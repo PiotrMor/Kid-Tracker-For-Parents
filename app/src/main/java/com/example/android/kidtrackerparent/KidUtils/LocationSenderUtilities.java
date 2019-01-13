@@ -17,9 +17,10 @@ public class LocationSenderUtilities {
 
     public static final String TAG = LocationSenderService.class.getSimpleName();
 
-    private static final int INTERVAL_MINUTES = 1;
+    private static final String JOB_TAG = "location-service";
+    private static final int INTERVAL_MINUTES = 2;
     private static final int INTERVAL_SECONDS = (int) TimeUnit.MINUTES.toSeconds(INTERVAL_MINUTES);
-    private static final int FLEXTIME_SECONDS = 60;
+    private static final int FLEXTIME_SECONDS = 120;
 
     private static boolean sInitialized;
 
@@ -31,14 +32,21 @@ public class LocationSenderUtilities {
 
         Job job = dispatcher.newJobBuilder()
                 .setService(LocationSenderService.class)
-                .setTag(TAG)
+                .setTag(JOB_TAG)
                 .setLifetime(Lifetime.FOREVER)
                 .setRecurring(true)
-                .setTrigger(Trigger.executionWindow(0,60))
+                .setTrigger(Trigger.executionWindow(INTERVAL_MINUTES,FLEXTIME_SECONDS))
                 .build();
 
         dispatcher.mustSchedule(job);
         Log.d(TAG, "Start service");
         sInitialized = true;
+    }
+
+    synchronized public static void cancelSendingLocation(Context context) {
+        Driver driver = new GooglePlayDriver(context);
+        FirebaseJobDispatcher dispatcher = new FirebaseJobDispatcher(driver);
+        dispatcher.cancel(JOB_TAG);
+        Log.d(TAG, "cancelSendingLocation: anulowano");
     }
 }

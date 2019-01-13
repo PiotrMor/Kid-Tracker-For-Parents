@@ -11,47 +11,41 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.LocationUtils;
+import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
 import com.google.android.gms.location.LocationServices;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class LocationSenderService extends JobService {
     public final static String TAG = LocationSenderService.class.getSimpleName();
     private static final String NOTIFICATION_CHANNEL_ID = "default channel";
 
-    private AsyncTask mBackgroundTask;
 
     @Override
     public boolean onStartJob(final JobParameters job) {
-        mBackgroundTask = new AsyncTask() {
-            @Override
-            protected Object doInBackground(Object[] objects) {
-                Location location = LocationUtils.getLastLocation(LocationSenderService.this);
-                if (location != null) {
-                    sendNotification(LocationUtils.getLastLocation(LocationSenderService.this).toString());
-                }
-                Log.d(TAG, "Powiadomienie powinno byc");
-                return null;
-            }
+        Location location = LocationUtils.getLastLocation(LocationSenderService.this);
+        if (location != null) {
+            HashMap<String, String> params = new HashMap<>();
+            params.put("latitude", location.getLatitude() + "");
+            params.put("longitude", location.getLatitude() + "");
+            sendNotification(params + " dziala");
 
-            @Override
-            protected void onPostExecute(Object o) {
-                jobFinished(job, false);
-            }
-        };
-        mBackgroundTask.execute();
+            SendLocationToServerAsync mBackgroundTask = new SendLocationToServerAsync();
+            mBackgroundTask.execute(this);
+        }
+
         return true;
     }
 
     @Override
     public boolean onStopJob(JobParameters job) {
-        if (mBackgroundTask != null) {
-            mBackgroundTask.cancel(true);
-        }
+
         return true;
     }
 
@@ -82,4 +76,6 @@ public class LocationSenderService extends JobService {
         notificationManager.notify(0, mBuilder.build());
 
     }
+
+
 }

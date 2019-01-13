@@ -40,6 +40,7 @@ public class BackEndServerUtils {
     public static final String SERVER_REGISTER_CHILD = SERVER_URL + "registration/child";
     public static final String SERVER_LOGIN_KID = SERVER_URL + "auth/child/local";
     public static final String SERVER_GET_CHILD_CODE = SERVER_URL + "api/child/code";
+    public static final String SERVER_SEND_KID_LOCATION = SERVER_URL + "api/child/location";
 
     public static final String NO_COOKIES = "0 cookies";
 
@@ -96,8 +97,8 @@ public class BackEndServerUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d(TAG, requestURL + " " + response);
-
+        Log.d(TAG, "performPostCall: " + postDataParams.toString());
+        Log.d(TAG, "performPostCall: " + response);
         return new ResponseTuple(response, cookie);
 
     }
