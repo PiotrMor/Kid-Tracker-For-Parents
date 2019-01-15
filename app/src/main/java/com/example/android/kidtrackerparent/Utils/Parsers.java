@@ -8,8 +8,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Parsers {
 
@@ -40,5 +44,23 @@ public class Parsers {
             positions.add(new SerializableLatLng(positionJson.getDouble("lat"), positionJson.getDouble("lng")));
         }
         return positions;
+    }
+
+    public static String parseLocationTimeToString(String locationTime) {
+
+        if (locationTime != null) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-MM'T'HH:mm:ss.SSS'Z'");
+            Date date = null;
+            try {
+                date = format.parse(locationTime);
+                SimpleDateFormat myFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+                return myFormat.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+
+
     }
 }

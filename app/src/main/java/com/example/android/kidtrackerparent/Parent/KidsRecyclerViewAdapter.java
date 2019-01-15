@@ -1,7 +1,10 @@
 package com.example.android.kidtrackerparent.Parent;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,8 @@ public class KidsRecyclerViewAdapter extends RecyclerView.Adapter<KidsRecyclerVi
     private final List<Kid> mKids;
     private final OnListFragmentInteractionListener mListener;
 
+    public final static String TAG = KidsRecyclerViewAdapter.class.getSimpleName();
+
     public KidsRecyclerViewAdapter(List<Kid> items, OnListFragmentInteractionListener listener) {
         mKids = items;
         mListener = listener;
@@ -35,7 +40,17 @@ public class KidsRecyclerViewAdapter extends RecyclerView.Adapter<KidsRecyclerVi
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mKid = mKids.get(position);
-        holder.mChildName.setText(mKids.get(position).getName());
+        holder.mKidNameTextView.setText(mKids.get(position).getName());
+        holder.mKidIconTextView.setText(mKids.get(position).getName().substring(0,1));
+        holder.mKidIconTextView.getBackground().setColorFilter(Color.parseColor(mKids.get(position).getColor())
+                ,PorterDuff.Mode.SRC_ATOP);
+
+        String lastLocation = mKids.get(position).getLastLocationTime();
+        if (lastLocation != null) {
+            holder.mLocationTimeTextView.setText(lastLocation);
+        } else {
+            holder.mLocationTimeTextView.setText(R.string.no_last_location);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,19 +70,23 @@ public class KidsRecyclerViewAdapter extends RecyclerView.Adapter<KidsRecyclerVi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mChildName;
-        public Kid mKid;
+        final View mView;
+        final TextView mKidNameTextView;
+        final TextView mKidIconTextView;
+        final TextView mLocationTimeTextView;
+        Kid mKid;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mChildName = view.findViewById(R.id.tv_kid_name);
+            mKidNameTextView = view.findViewById(R.id.tv_kid_name);
+            mKidIconTextView = view.findViewById(R.id.tv_kid_icon);
+            mLocationTimeTextView = view.findViewById(R.id.tv_last_location_time);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mChildName.getText() + "'";
+            return super.toString() + " '" + mKidNameTextView.getText() + "'";
         }
     }
 }

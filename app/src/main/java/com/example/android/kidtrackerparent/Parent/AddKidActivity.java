@@ -130,7 +130,7 @@ public class AddKidActivity extends AppCompatActivity {
             HashMap<String, String> map = new HashMap<>();
             map.put(KEY_NAME, mNameEditText.getText().toString());
             map.put(KEY_CODE, mCodeEditText.getText().toString());
-            map.put(KEY_COLOR, Integer.toHexString(mSelectedColor));
+            map.put(KEY_COLOR, "#" + Integer.toHexString(mSelectedColor));
             // TODO: with or without #
             Log.d(TAG, "doInBackground: " + map);
             ResponseTuple response = BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_ADD_CHILDREN, map, PreferenceUtils.getSessionCookie(AddKidActivity.this));
