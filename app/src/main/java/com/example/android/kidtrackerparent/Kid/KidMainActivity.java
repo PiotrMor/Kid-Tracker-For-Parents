@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,10 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.android.kidtrackerparent.KidUtils.LocationSenderUtilities;
 import com.example.android.kidtrackerparent.LoginActivity;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
-import com.google.android.gms.maps.MapFragment;
 
 public class KidMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DisplayCodeFragment.OnFragmentInteractionListener {
@@ -45,7 +44,11 @@ public class KidMainActivity extends AppCompatActivity
 
         getSupportFragmentManager().beginTransaction().replace(R.id.kid_fragment_container, new KidMapFragment()).commit();
         navigationView.setCheckedItem(R.id.nav_map);
+
+        LocationSenderUtilities.scheduleSendingLocation(this);
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -72,6 +75,7 @@ public class KidMainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.kid_fragment_container, new DisplayCodeFragment()).commit();
                 break;
             case R.id.nav_logout:
+                LocationSenderUtilities.cancelSendingLocation(this);
                 logoutFromAccount();
                 break;
         }
@@ -91,4 +95,6 @@ public class KidMainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }

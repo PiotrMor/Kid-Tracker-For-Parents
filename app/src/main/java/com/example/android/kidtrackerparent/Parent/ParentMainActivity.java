@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.LoginActivity;
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.Parent.Areas.AreasListFragment;
 import com.example.android.kidtrackerparent.Parent.Areas.DisplayAreaActivity;
 import com.example.android.kidtrackerparent.R;
@@ -131,6 +131,7 @@ public class ParentMainActivity extends AppCompatActivity
             case R.id.nav_rules:
                 break;
             case R.id.nav_logout:
+                deleteToken();
                 logoutFromAccount();
                 break;
         }
@@ -140,8 +141,15 @@ public class ParentMainActivity extends AppCompatActivity
         return true;
     }
 
+    private void deleteToken() {
+        DeleteFirebaseTokenAsync deleteTokenAsync = new DeleteFirebaseTokenAsync(
+                PreferenceUtils.getSessionCookie(this));
+        deleteTokenAsync.execute();
+    }
+
 
     private void logoutFromAccount() {
+
         PreferenceUtils.addSessionCookie(this, null);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
@@ -176,7 +184,9 @@ public class ParentMainActivity extends AppCompatActivity
 
         @Override
         protected String doInBackground(Context... contexts) {
-            String result = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_CURRENT_USER, PreferenceUtils.getSessionCookie(contexts[0]));
+            String result = BackEndServerUtils.performCall(BackEndServerUtils.SERVER_CURRENT_USER,
+                    PreferenceUtils.getSessionCookie(contexts[0]),
+                    BackEndServerUtils.REQUEST_GET);
             return result;
         }
 
@@ -195,6 +205,22 @@ public class ParentMainActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    private static class DeleteFirebaseTokenAsync extends AsyncTask<Void, Void, Void> {
+        private String mCookie;
+
+        DeleteFirebaseTokenAsync(String cookie) {
+            mCookie = cookie;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            BackEndServerUtils.performCall(BackEndServerUtils.SERVER_DELETE_FIREBASE_TOKEN,
+                    mCookie,
+                    BackEndServerUtils.REQUEST_DELETE);
+            return null;
         }
     }
 }

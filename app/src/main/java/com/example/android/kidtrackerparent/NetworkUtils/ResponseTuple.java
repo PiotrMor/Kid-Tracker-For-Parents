@@ -1,6 +1,4 @@
-package com.example.android.kidtrackerparent.NetwortUtils;
-
-import java.net.HttpCookie;
+package com.example.android.kidtrackerparent.NetworkUtils;
 
 public class ResponseTuple {
     private final String response;

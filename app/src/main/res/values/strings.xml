@@ -71,4 +71,7 @@
     <string name="save_area_button_label">Zapisz</string>
     <string name="select_color_title">Wybierz kolor:</string>
     <string name="area_icon_description">Area icon</string>
+    <string name="last_location_label">Ostatnia aktualizacja lokalizacji:</string>
+
+    <string name="no_last_location">Brak ostatniej lokalizacji</string>
 </resources>

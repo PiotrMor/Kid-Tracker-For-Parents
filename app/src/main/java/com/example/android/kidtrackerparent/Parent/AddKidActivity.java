@@ -1,7 +1,6 @@
 package com.example.android.kidtrackerparent.Parent;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.support.v4.app.NavUtils;
@@ -19,8 +18,8 @@ import android.widget.Toast;
 
 import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
-import com.example.android.kidtrackerparent.NetwortUtils.ResponseTuple;
+import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.ResponseTuple;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 
@@ -131,7 +130,7 @@ public class AddKidActivity extends AppCompatActivity {
             HashMap<String, String> map = new HashMap<>();
             map.put(KEY_NAME, mNameEditText.getText().toString());
             map.put(KEY_CODE, mCodeEditText.getText().toString());
-            map.put(KEY_COLOR, Integer.toHexString(mSelectedColor));
+            map.put(KEY_COLOR, "#" + Integer.toHexString(mSelectedColor));
             // TODO: with or without #
             Log.d(TAG, "doInBackground: " + map);
             ResponseTuple response = BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_ADD_CHILDREN, map, PreferenceUtils.getSessionCookie(AddKidActivity.this));

@@ -1,6 +1,5 @@
-package com.example.android.kidtrackerparent.NetwortUtils;
+package com.example.android.kidtrackerparent.NetworkUtils;
 
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -25,7 +24,6 @@ public class BackEndServerUtils {
     public static final String SERVER_CURRENT_USER = SERVER_URL + "api/current_user";
 
 
-
     //URL's for parent app
     public static final String SERVER_LOGIN_PARENT = SERVER_URL + "auth/parent/local";
     public static final String SERVER_REGISTER_PARENT = SERVER_URL + "registration/parent";
@@ -34,14 +32,19 @@ public class BackEndServerUtils {
     public static final String SERVER_ADD_CHILDREN = SERVER_URL + "api/parent/children";
     public static final String SERVER_UPDATE_CHILDREN = SERVER_ADD_CHILDREN + "/id";
     public static final String SERVER_GET_AREAS = SERVER_URL + "api/parent/areas";
-
+    public static final String SERVER_DELETE_FIREBASE_TOKEN = SERVER_URL + "api/parent/location/token";
 
     //URL's for kid app
     public static final String SERVER_REGISTER_CHILD = SERVER_URL + "registration/child";
     public static final String SERVER_LOGIN_KID = SERVER_URL + "auth/child/local";
     public static final String SERVER_GET_CHILD_CODE = SERVER_URL + "api/child/code";
+    public static final String SERVER_SEND_KID_LOCATION = SERVER_URL + "api/child/location";
 
     public static final String NO_COOKIES = "0 cookies";
+
+    //Request types
+    public static final int REQUEST_GET = 0;
+    public static final int REQUEST_DELETE = 1;
 
 
     public static ResponseTuple performPostCall(String requestURL,
@@ -71,11 +74,11 @@ public class BackEndServerUtils {
             writer.close();
             os.close();
             conn.connect();
-            int responseCode=conn.getResponseCode();
+            int responseCode = conn.getResponseCode();
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {
                 List<String> cookies = conn.getHeaderFields().get("Set-Cookie");
-                if(cookies != null && !cookies.isEmpty()){
+                if (cookies != null && !cookies.isEmpty()) {
                     StringBuilder stringBuilder = new StringBuilder();
                     for (String element : cookies) {
                         stringBuilder.append(element);
@@ -84,27 +87,26 @@ public class BackEndServerUtils {
                 }
                 Log.d(TAG, "cookies: " + cookies);
                 String line;
-                BufferedReader br=new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                while ((line=br.readLine()) != null) {
-                    response+=line;
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while ((line = br.readLine()) != null) {
+                    response += line;
                 }
-            }
-            else {
-                response="";
+            } else {
+                response = "";
 
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d(TAG, requestURL + " " + response);
-
+        Log.d(TAG, "performPostCall: " + postDataParams.toString());
+        Log.d(TAG, "performPostCall: " + response);
         return new ResponseTuple(response, cookie);
 
     }
 
 
     public static ResponseTuple performPostCall(String requestURL,
-                                  HashMap<String, String> postDataParams, String sessionCookie) {
+                                                HashMap<String, String> postDataParams, String sessionCookie) {
         try {
             return performPostCall(requestURL, getPostDataJsonObject(postDataParams), sessionCookie);
         } catch (UnsupportedEncodingException e) {
@@ -113,11 +115,11 @@ public class BackEndServerUtils {
         return null;
     }
 
-    public static String performGetCall(String requestURl, String cookie) {
+ /*   public static String performGetCall(String requestURL, String cookie) {
 
 
         try {
-            URL url = new URL(requestURl);
+            URL url = new URL(requestURL);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -148,6 +150,45 @@ public class BackEndServerUtils {
 
         return "";
 
+    }*/
+
+
+
+    public static String performCall(String requestURL, String cookie, int requestType) {
+        try {
+            URL url = new URL(requestURL);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            if (requestType == REQUEST_GET) {
+                conn.setRequestMethod("GET");
+            } else if (requestType == REQUEST_DELETE) {
+                conn.setRequestMethod("DELETE");
+            }
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            if (cookie != null) {
+                conn.setRequestProperty("Cookie", cookie);
+            }
+            conn.connect();
+            Log.d(TAG, "performCall: " + cookie);
+            int respondCode = conn.getResponseCode();
+
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            Log.d(TAG, "performCall: " + response);
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            return response.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 
     private static JSONObject getPostDataJsonObject(HashMap<String, String> params) throws UnsupportedEncodingException {

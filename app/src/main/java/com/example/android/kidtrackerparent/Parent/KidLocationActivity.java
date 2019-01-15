@@ -8,14 +8,18 @@ import android.view.MenuItem;
 
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class KidLocationActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Kid mKid;
+    private LatLng mLocation;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +28,7 @@ public class KidLocationActivity extends AppCompatActivity implements OnMapReady
 
         if (getIntent().hasExtra(ParentMainActivity.INTENT_EXTRA_KEY_KID)) {
             mKid = (Kid) getIntent().getSerializableExtra(ParentMainActivity.INTENT_EXTRA_KEY_KID);
+            mLocation = new LatLng(mKid.getLatitude(), mKid.getLongitude());
         }
 
         SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_kid_location);
@@ -33,6 +38,10 @@ public class KidLocationActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        if (mLocation != null) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLocation, 16));
+            mMap.addMarker(new MarkerOptions().position(mLocation).title(mKid.getName())).showInfoWindow();
+        }
     }
 
     @Override

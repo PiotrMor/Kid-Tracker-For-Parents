@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.android.kidtrackerparent.BasicClasses.Area;
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 
@@ -104,7 +104,9 @@ public class AreasListFragment extends Fragment {
                     return null;
                 }
 
-                String jsonString = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GET_AREAS, PreferenceUtils.getSessionCookie(getActivity()));
+                String jsonString = BackEndServerUtils.performCall(BackEndServerUtils.SERVER_GET_AREAS,
+                        PreferenceUtils.getSessionCookie(getActivity()),
+                        BackEndServerUtils.REQUEST_GET);
                 mAreaList = new ArrayList<>();
                 Log.d(TAG, "doInBackground: " + jsonString);
                 try {

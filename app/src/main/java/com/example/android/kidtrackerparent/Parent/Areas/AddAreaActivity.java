@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.BasicClasses.SerializableLatLng;
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.Parsers;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
@@ -164,7 +164,9 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
             @Override
             protected Object doInBackground(Object[] objects) {
 
-                String jsonString = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GET_CHILDREN, PreferenceUtils.getSessionCookie(AddAreaActivity.this));
+                String jsonString = BackEndServerUtils.performCall(BackEndServerUtils.SERVER_GET_CHILDREN,
+                        PreferenceUtils.getSessionCookie(AddAreaActivity.this),
+                        BackEndServerUtils.REQUEST_GET);
                 mKidList = new ArrayList<>();
                 try {
                     JSONArray jsonArray = new JSONArray(jsonString);

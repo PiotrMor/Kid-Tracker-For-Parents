@@ -14,10 +14,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
-import com.example.android.kidtrackerparent.NetwortUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 
@@ -141,7 +140,9 @@ public class KidsListFragment extends Fragment {
             @Override
             protected Object doInBackground(Object[] objects) {
 
-                String jsonString = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GET_CHILDREN, PreferenceUtils.getSessionCookie(getActivity()));
+                String jsonString = BackEndServerUtils.performCall(BackEndServerUtils.SERVER_GET_CHILDREN,
+                        PreferenceUtils.getSessionCookie(getActivity()),
+                        BackEndServerUtils.REQUEST_GET);
                 mKidList = new ArrayList<>();
                 Log.d(TAG, "doInBackground: kids " + jsonString);
                 try {

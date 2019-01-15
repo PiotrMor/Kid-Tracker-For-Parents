@@ -1,5 +1,7 @@
 package com.example.android.kidtrackerparent.BasicClasses;
 
+import android.util.Log;
+
 import com.example.android.kidtrackerparent.Utils.JSONUtils;
 import com.example.android.kidtrackerparent.Utils.Parsers;
 
@@ -19,6 +21,9 @@ public class Kid implements Serializable {
     private String mColor;
     private double mLongitude;
     private double mLatitude;
+    private String mLastLocationTime;
+
+    public final static String TAG = Kid.class.getSimpleName();
 
     public Kid(String id, String name) {
         this.mId = id;
@@ -31,10 +36,14 @@ public class Kid implements Serializable {
         this.mName = JSONUtils.getValueFromJson(jsonObject, "name");
         this.mEmail = JSONUtils.getValueFromJson(jsonObject, "email");
         this.mColor = JSONUtils.getValueFromJson(jsonObject, "iconColor");
-
+        this.mLastLocationTime = Parsers
+                .parseLocationTimeToString(JSONUtils.getValueFromJson(jsonObject, "locationTime"));
         try {
             JSONObject location = jsonObject.getJSONObject("location");
-            JSONArray array = location.getJSONArray("coordinates");
+
+            JSONArray coordinates = location.getJSONArray("coordinates");
+            mLatitude = coordinates.getDouble(0);
+            mLongitude = coordinates.getDouble(1);
 
 
         } catch (JSONException e) {
@@ -58,6 +67,17 @@ public class Kid implements Serializable {
         return mColor;
     }
 
+    public double getLatitude() {
+        return mLatitude;
+    }
+
+    public double getLongitude() {
+        return mLongitude;
+    }
+
+    public String getLastLocationTime() {
+        return mLastLocationTime;
+    }
 
     @Override
     public String toString() {

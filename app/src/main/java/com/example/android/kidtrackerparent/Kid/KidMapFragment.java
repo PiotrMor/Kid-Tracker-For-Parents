@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.android.kidtrackerparent.KidUtils.SendLocationToServerAsync;
 import com.example.android.kidtrackerparent.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -52,6 +53,9 @@ public class KidMapFragment extends Fragment implements OnMapReadyCallback {
         getLocationPermission();
         SupportMapFragment fragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.fragment_kid_map);
         fragment.getMapAsync(this);
+        SendLocationToServerAsync task = new SendLocationToServerAsync();
+        task.execute(getActivity());
+
     }
 
     @Override
