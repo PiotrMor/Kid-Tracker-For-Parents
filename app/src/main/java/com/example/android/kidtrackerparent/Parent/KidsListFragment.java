@@ -140,7 +140,9 @@ public class KidsListFragment extends Fragment {
             @Override
             protected Object doInBackground(Object[] objects) {
 
-                String jsonString = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GET_CHILDREN, PreferenceUtils.getSessionCookie(getActivity()));
+                String jsonString = BackEndServerUtils.performCall(BackEndServerUtils.SERVER_GET_CHILDREN,
+                        PreferenceUtils.getSessionCookie(getActivity()),
+                        BackEndServerUtils.REQUEST_GET);
                 mKidList = new ArrayList<>();
                 Log.d(TAG, "doInBackground: kids " + jsonString);
                 try {

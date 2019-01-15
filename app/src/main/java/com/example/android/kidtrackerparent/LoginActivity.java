@@ -119,7 +119,9 @@ public class LoginActivity extends AppCompatActivity {
             mServerGet = new AsyncTask() {
                 @Override
                 protected Object doInBackground(Object[] objects) {
-                    String response = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_CURRENT_USER, PreferenceUtils.getSessionCookie(LoginActivity.this));
+                    String response = BackEndServerUtils.performCall(BackEndServerUtils.SERVER_CURRENT_USER,
+                            PreferenceUtils.getSessionCookie(LoginActivity.this),
+                            BackEndServerUtils.REQUEST_GET);
                     if (!response.isEmpty()){
                         navigateToNextActivity(response);
                     } else {

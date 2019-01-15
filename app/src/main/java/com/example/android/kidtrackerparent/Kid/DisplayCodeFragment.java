@@ -78,7 +78,9 @@ public class DisplayCodeFragment extends Fragment {
         mGetChildCode = new AsyncTask() {
             @Override
             protected Object doInBackground(Object[] objects) {
-                String response = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GET_CHILD_CODE, PreferenceUtils.getSessionCookie(getActivity()));
+                String response = BackEndServerUtils.performCall(BackEndServerUtils.SERVER_GET_CHILD_CODE,
+                        PreferenceUtils.getSessionCookie(getActivity()),
+                        BackEndServerUtils.REQUEST_GET);
                 Log.d(TAG, "doInBackground: " + response);
                 return response;
             }

@@ -104,7 +104,9 @@ public class AreasListFragment extends Fragment {
                     return null;
                 }
 
-                String jsonString = BackEndServerUtils.performGetCall(BackEndServerUtils.SERVER_GET_AREAS, PreferenceUtils.getSessionCookie(getActivity()));
+                String jsonString = BackEndServerUtils.performCall(BackEndServerUtils.SERVER_GET_AREAS,
+                        PreferenceUtils.getSessionCookie(getActivity()),
+                        BackEndServerUtils.REQUEST_GET);
                 mAreaList = new ArrayList<>();
                 Log.d(TAG, "doInBackground: " + jsonString);
                 try {
