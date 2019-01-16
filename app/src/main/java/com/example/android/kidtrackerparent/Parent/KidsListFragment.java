@@ -3,7 +3,9 @@ package com.example.android.kidtrackerparent.Parent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -42,6 +44,7 @@ public class KidsListFragment extends Fragment {
     private List<Kid> mKidList = new ArrayList<>();
     private View mRootView;
     private SwipeRefreshLayout mSwipeRefresh;
+    private FloatingActionButton mFloatingButton;
 
     private RecyclerView mRecyclerView;
 
@@ -77,21 +80,30 @@ public class KidsListFragment extends Fragment {
         mRootView = view;
         // Set the adapter
         addRefreshOnSwap();
+
+
         Context context = view.getContext();
         mRecyclerView = view.findViewById(R.id.kids_recycler_view);
-        if (mRecyclerView == null) {
-            Log.d(TAG, "onCreateView: przypaulllll");
-        }
-        if (mColumnCount <= 1) {
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        } else {
-            mRecyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-        }
+
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+
         mRecyclerView.setAdapter(new KidsRecyclerViewAdapter(mKidList, mListener));
-        addFABOnClick();
+        mFloatingButton = mRootView.findViewById(R.id.fab_add_kid);
 
-
+        if (getArguments() == null) {
+            addFABOnClick();
+        } else {
+            makeFABInvisible();
+        }
         return view;
+    }
+
+    private void makeFABInvisible() {
+        mFloatingButton.hide();
+
+
     }
 
     private void addRefreshOnSwap() {
@@ -106,8 +118,8 @@ public class KidsListFragment extends Fragment {
     }
 
     private void addFABOnClick() {
-        FloatingActionButton fab = mRootView.findViewById(R.id.fab_add_kid);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+        mFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AddKidActivity.class);

@@ -129,6 +129,11 @@ public class ParentMainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AreasListFragment()).commit();
                 break;
             case R.id.nav_rules:
+                Bundle bundle = new Bundle();
+                bundle.putString("activity", "rules");
+                KidsListFragment fragment = new KidsListFragment();
+                fragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
                 break;
             case R.id.nav_logout:
                 deleteToken();
@@ -159,9 +164,12 @@ public class ParentMainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Kid item) {
         Log.d(TAG, "onListFragmentInteraction: " + item.getName());
-        Intent intent = new Intent(this, KidLocationActivity.class);
-        intent.putExtra(INTENT_EXTRA_KEY_KID, item);
-        startActivity(intent);
+        if (mNavigationView.getCheckedItem().getItemId() == R.id.nav_kids) {
+            Intent intent = new Intent(this, KidLocationActivity.class);
+            intent.putExtra(INTENT_EXTRA_KEY_KID, item);
+            startActivity(intent);
+        }
+
     }
 
     @Override
