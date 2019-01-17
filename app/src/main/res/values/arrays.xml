@@ -40,5 +40,15 @@
         <item>@color/color18</item>
     </array>
 
+    <string-array name="rules_repetition">
+        <item>@string/rules_repetition_none</item>
+        <item>@string/rules_repetition_daily</item>
+        <item>@string/rules_repetition_weekly</item>
+        <item>@string/rules_repetition_monthly</item>
+        <item>@string/rules_repetition_yearly</item>
+        <item>@string/rules_repetition_work_days</item>
+        <item>@string/rules_repetition_weekends</item>
+    </string-array>
+
 
 </resources>

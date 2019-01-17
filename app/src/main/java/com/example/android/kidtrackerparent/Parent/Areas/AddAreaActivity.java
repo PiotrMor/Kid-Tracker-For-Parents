@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.MultiSpinnerListener {
+public class AddAreaActivity extends AppCompatActivity {
 
     public final static String TAG = AddAreaActivity.class.getSimpleName();
 
@@ -66,7 +66,7 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
 
         initKidSpinner();
         initSpinnerElementsList();
-        AreaSpinnerAdapter adapter = new AreaSpinnerAdapter(this, mIconList);
+        AreaIconSpinnerAdapter adapter = new AreaIconSpinnerAdapter(this, mIconList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerIcons.setAdapter(adapter);
         mArea = getAreaFromIntent();
@@ -217,10 +217,6 @@ public class AddAreaActivity extends AppCompatActivity implements MultiSpinner.M
         }
     }
 
-    @Override
-    public void onItemsSelected(boolean[] selected) {
-
-    }
 
     private void displayToastMessage(String message) {
         if (mToast != null) {

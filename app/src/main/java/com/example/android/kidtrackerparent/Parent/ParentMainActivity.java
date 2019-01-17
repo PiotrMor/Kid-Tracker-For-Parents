@@ -22,6 +22,7 @@ import com.example.android.kidtrackerparent.LoginActivity;
 import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.Parent.Areas.AreasListFragment;
 import com.example.android.kidtrackerparent.Parent.Areas.DisplayAreaActivity;
+import com.example.android.kidtrackerparent.Parent.Rules.AddRuleActivity;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 
@@ -166,6 +167,10 @@ public class ParentMainActivity extends AppCompatActivity
         Log.d(TAG, "onListFragmentInteraction: " + item.getName());
         if (mNavigationView.getCheckedItem().getItemId() == R.id.nav_kids) {
             Intent intent = new Intent(this, KidLocationActivity.class);
+            intent.putExtra(INTENT_EXTRA_KEY_KID, item);
+            startActivity(intent);
+        } else if (mNavigationView.getCheckedItem().getItemId() == R.id.nav_rules) {
+            Intent intent = new Intent(this, AddRuleActivity.class);
             intent.putExtra(INTENT_EXTRA_KEY_KID, item);
             startActivity(intent);
         }

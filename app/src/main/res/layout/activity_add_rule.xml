@@ -1,6 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_add_rule_label"
+            style="@style/Base.TextAppearance.AppCompat.Display2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="68dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:text="@string/add_rule_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.459"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_start_date_label"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="36dp"
+            android:text="@string/rule_start_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_add_rule_label" />
+
+        <TextView
+            android:id="@+id/tv_end_date_label"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/rule_end_date"
+            app:layout_constraintStart_toStartOf="@+id/tv_start_date_label"
+            app:layout_constraintTop_toBottomOf="@+id/tv_start_date_label" />
+
+        <TextView
+            android:id="@+id/tv_start_time_label"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
+            android:text="@string/rule_start_time"
+            app:layout_constraintStart_toStartOf="@+id/tv_end_date_label"
+            app:layout_constraintTop_toBottomOf="@+id/tv_end_date_label" />
+
+        <TextView
+            android:id="@+id/tv_end_time_label"
+            style="@style/Base.TextAppearance.AppCompat.Headline"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/rule_end_time"
+            app:layout_constraintStart_toStartOf="@+id/tv_start_time_label"
+            app:layout_constraintTop_toBottomOf="@+id/tv_start_time_label" />
+
+        <TextView
+            android:id="@+id/tv_start_date"
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="@string/rule_default_date"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_start_date_label"
+            app:layout_constraintStart_toEndOf="@+id/tv_start_date_label" />
+
+        <TextView
+            android:id="@+id/tv_end_date"
+            style="@style/TextAppearance.AppCompat.Large"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rule_default_date"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_end_date_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_start_date" />
+
+        <TextView
+            android:id="@+id/tv_start_time"
+            style="@style/TextAppearance.AppCompat.Large"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rule_default_time"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_start_time_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_end_date" />
+
+        <TextView
+            android:id="@+id/tv_end_time"
+            style="@style/TextAppearance.AppCompat.Large"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rule_default_time"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_end_time_label"
+            app:layout_constraintStart_toStartOf="@+id/tv_start_time" />
+
+        <Spinner
+            android:id="@+id/spinner_areas"
+            android:layout_width="218dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="44dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_end_time_label"
+            app:layout_constraintTop_toBottomOf="@+id/tv_end_time_label" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>
