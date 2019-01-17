@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ TimePickerDialog.OnTimeSetListener, AsyncResponse<ArrayList<Area>> {
     private TextView mEndTimeTextView;
 
     private Spinner mAreaSpinner;
+    private Spinner mRepetitionSpinner;
     private View mSelectedView;
 
     private Calendar mCurrentTime;
@@ -60,9 +62,19 @@ TimePickerDialog.OnTimeSetListener, AsyncResponse<ArrayList<Area>> {
         setTimeViewsOnClickListeners();
 
         populateAreaSpinner();
+        populateRepetitionSpinner();
+    }
+
+    private void populateRepetitionSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.rules_repetition, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mRepetitionSpinner.setAdapter(adapter);
     }
 
     private void populateAreaSpinner() {
+        mAreaSpinner.setScaleY(0.8f);
+
         AreaListFromServerAsync task = new AreaListFromServerAsync(this);
         task.execute(this);
     }
@@ -116,6 +128,7 @@ TimePickerDialog.OnTimeSetListener, AsyncResponse<ArrayList<Area>> {
         mEndTimeTextView = findViewById(R.id.tv_end_time);
 
         mAreaSpinner = findViewById(R.id.spinner_areas);
+        mRepetitionSpinner = findViewById(R.id.spinner_repetition);
     }
 
     @Override
@@ -130,11 +143,11 @@ TimePickerDialog.OnTimeSetListener, AsyncResponse<ArrayList<Area>> {
         ((TextView) mSelectedView).setText(time);
     }
 
+    //Response from async task
     @Override
     public void onSuccess(ArrayList<Area> areaList) {
         AreaSpinnerAdapter adapter = new AreaSpinnerAdapter(this, areaList);
         mAreaSpinner.setAdapter(adapter);
-
     }
 
     @Override
