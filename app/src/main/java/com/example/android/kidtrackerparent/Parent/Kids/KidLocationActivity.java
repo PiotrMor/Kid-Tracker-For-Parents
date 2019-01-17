@@ -1,4 +1,4 @@
-package com.example.android.kidtrackerparent.Parent;
+package com.example.android.kidtrackerparent.Parent.Kids;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
+import com.example.android.kidtrackerparent.Parent.ParentMainActivity;
 import com.example.android.kidtrackerparent.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;

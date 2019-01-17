@@ -1,4 +1,4 @@
-package com.example.android.kidtrackerparent.Parent;
+package com.example.android.kidtrackerparent.Parent.Kids;
 
 import android.content.Context;
 import android.content.Intent;

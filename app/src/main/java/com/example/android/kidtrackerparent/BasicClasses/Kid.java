@@ -42,12 +42,12 @@ public class Kid implements Serializable {
             JSONObject location = jsonObject.getJSONObject("location");
 
             JSONArray coordinates = location.getJSONArray("coordinates");
-            mLatitude = coordinates.getDouble(0);
-            mLongitude = coordinates.getDouble(1);
+            mLatitude = coordinates.getDouble(1);
+            mLongitude = coordinates.getDouble(0);
 
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d(TAG, "Kid: location not set");
         }
     }
 
