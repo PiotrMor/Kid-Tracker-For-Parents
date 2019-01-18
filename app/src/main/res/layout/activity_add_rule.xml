@@ -27,7 +27,8 @@
 
         <TextView
             android:id="@+id/tv_start_date_label"
-            style="@style/Base.TextAppearance.AppCompat.Headline"
+            style="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -39,7 +40,8 @@
 
         <TextView
             android:id="@+id/tv_end_date_label"
-            style="@style/Base.TextAppearance.AppCompat.Headline"
+            style="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textSize="20sp"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,7 +52,8 @@
 
         <TextView
             android:id="@+id/tv_start_time_label"
-            style="@style/Base.TextAppearance.AppCompat.Headline"
+            style="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textSize="20sp"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,7 +64,8 @@
 
         <TextView
             android:id="@+id/tv_end_time_label"
-            style="@style/Base.TextAppearance.AppCompat.Headline"
+            style="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textSize="20sp"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,19 +76,22 @@
 
         <TextView
             android:id="@+id/tv_start_date"
-            style="@style/TextAppearance.AppCompat.Large"
+            style="@style/Base.TextAppearance.AppCompat.Caption"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
             android:text="@string/rule_default_date"
+            android:textColor="@color/green"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_start_date_label"
             app:layout_constraintStart_toEndOf="@+id/tv_start_date_label" />
 
         <TextView
             android:id="@+id/tv_end_date"
-            style="@style/TextAppearance.AppCompat.Large"
-
+            style="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textSize="20sp"
+            android:textColor="@color/red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rule_default_date"
@@ -93,8 +100,9 @@
 
         <TextView
             android:id="@+id/tv_start_time"
-            style="@style/TextAppearance.AppCompat.Large"
-
+            style="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textSize="20sp"
+            android:textColor="@color/green"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rule_default_time"
@@ -103,8 +111,9 @@
 
         <TextView
             android:id="@+id/tv_end_time"
-            style="@style/TextAppearance.AppCompat.Large"
-
+            style="@style/Base.TextAppearance.AppCompat.Caption"
+            android:textSize="20sp"
+            android:textColor="@color/red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rule_default_time"
@@ -139,6 +148,15 @@
             android:text="@string/add_button_label"
             app:layout_constraintEnd_toEndOf="@+id/tv_end_time"
             app:layout_constraintTop_toBottomOf="@+id/spinner_repetition" />
+
+        <View
+            android:id="@+id/view_separator"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:layout_marginTop="28dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_end_date_label"
+            app:layout_constraintTop_toBottomOf="@+id/tv_end_date_label" />
 
     </android.support.constraint.ConstraintLayout>
 

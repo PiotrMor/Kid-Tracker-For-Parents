@@ -2,6 +2,9 @@ package com.example.android.kidtrackerparent.Parent.Areas;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,11 +72,15 @@ public class KidsSpinnerAdapter extends ArrayAdapter<Kid> {
 
     private Button createButtonWithName(Kid kid) {
         final KidButton button = new KidButton(getContext(), kid);
-        button.setLayoutParams(new ViewGroup.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
-                ActionBar.LayoutParams.WRAP_CONTENT));
+        ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT);
+        params.setMargins(2,2,2,2);
+        button.setLayoutParams(params);
         button.setText(kid.getName());
         button.setPadding(7, 0, 7, 0);
         button.setBackground(getContext().getResources().getDrawable(R.drawable.rounded_button));
+        button.getBackground().setColorFilter(new
+                PorterDuffColorFilter(0xd3d3d3, PorterDuff.Mode.MULTIPLY));
         button.setCompoundDrawablesWithIntrinsicBounds(null, null, getContext().getResources().getDrawable(R.drawable.ic_cancel_black_24dp), null);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

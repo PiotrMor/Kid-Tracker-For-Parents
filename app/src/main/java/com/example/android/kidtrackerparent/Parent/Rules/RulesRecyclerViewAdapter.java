@@ -61,6 +61,7 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
     }
 
     private Drawable getDrawableIcon(String iconId, Context context) {
+        Log.d(TAG, "getDrawableIcon: " + iconId);
         switch (iconId) {
             case Area.ICON_BOOK:
                 return context.getResources().getDrawable(R.drawable.book);

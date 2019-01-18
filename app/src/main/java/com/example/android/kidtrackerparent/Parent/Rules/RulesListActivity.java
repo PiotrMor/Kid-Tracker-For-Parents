@@ -128,6 +128,9 @@ public class RulesListActivity extends AppCompatActivity implements AsyncRespons
             if (area != null) {
                 rule.setAreaName(area.getName());
                 rule.setAreaIcon(area.getIconId());
+            } else {
+                rule.setAreaName("UNKNOWN");
+                rule.setAreaIcon("home");
             }
         }
     }

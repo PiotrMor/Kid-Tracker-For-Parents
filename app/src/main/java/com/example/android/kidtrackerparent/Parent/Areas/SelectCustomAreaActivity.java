@@ -164,9 +164,7 @@ public class SelectCustomAreaActivity extends AppCompatActivity implements OnMap
                                     .build(this);
                     startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
                 } catch (GooglePlayServicesRepairableException e) {
-                    // TODO: Handle the error.
                 } catch (GooglePlayServicesNotAvailableException e) {
-                    // TODO: Handle the error.
                 }
             default:
                 return super.onOptionsItemSelected(item);

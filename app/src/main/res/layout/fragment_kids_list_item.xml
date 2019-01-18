@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="12dp"
-        android:background="@color/grey"
+        android:background="@color/gray"
         app:layout_constraintTop_toBottomOf="@+id/tv_last_location_time_label"
         tools:layout_editor_absoluteX="0dp" />
 
