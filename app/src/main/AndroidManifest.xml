@@ -71,7 +71,7 @@
         </activity>
 
         <activity
-            android:name=".Parent.AddKidActivity"
+            android:name=".Parent.Kids.AddKidActivity"
             android:parentActivityName=".Parent.ParentMainActivity">
             <meta-data
                 android:name=".android.support.PARENT_ACTIVITY"
@@ -83,7 +83,7 @@
             android:label="@string/title_activity_parent_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Parent.KidLocationActivity"
+            android:name=".Parent.Kids.KidLocationActivity"
             android:parentActivityName=".Parent.ParentMainActivity">
             <meta-data
                 android:name=".android.support.PARENT_ACTIVITY"
@@ -118,6 +118,14 @@
                 android:name=".android.support.PARENT_ACTIVITY"
                 android:value=".Parent.ParentMainActivity" />
         </activity>
+        <activity
+            android:name=".Parent.Rules.RulesListActivity"
+            android:parentActivityName=".Parent.ParentMainActivity">
+            <meta-data
+                android:name=".android.support.PARENT_ACTIVITY"
+                android:value=".Parent.ParentMainActivity" />
+        </activity>
+
 
     </application>
 

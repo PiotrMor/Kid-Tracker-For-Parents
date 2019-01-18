@@ -74,4 +74,23 @@
     <string name="last_location_label">Ostatnia aktualizacja lokalizacji:</string>
 
     <string name="no_last_location">Brak ostatniej lokalizacji</string>
+
+
+    <string name="add_rule_label">Dodaj regułę</string>
+    <string name="rule_start_date">Data rozpoczęcia</string>
+    <string name="rule_end_date">Data zakończenia</string>
+    <string name="rule_start_time">Czas rozpoczęcia</string>
+    <string name="rule_end_time">Czas zakończnia</string>
+    <string name="rule_default_time">Wybierz godzinę</string>
+    <string name="rule_default_date">Wybierz dzień</string>
+
+    <string name="rules_repetition_none">Tylko raz</string>
+    <string name="rules_repetition_daily">Codziennie</string>
+    <string name="rules_repetition_weekly">Cotygodniowo</string>
+    <string name="rules_repetition_monthly">Comiesięcznie</string>
+    <string name="rules_repetition_yearly">Co rok</string>
+    <string name="rules_repetition_work_days">Dni robocze</string>
+    <string name="rules_repetition_weekends">Weekendy</string>
+    <string name="rule_repetition_label">Powtarzanie</string>
+
 </resources>

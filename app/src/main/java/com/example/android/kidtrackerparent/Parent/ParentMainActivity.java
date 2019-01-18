@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
@@ -22,6 +23,10 @@ import com.example.android.kidtrackerparent.LoginActivity;
 import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.Parent.Areas.AreasListFragment;
 import com.example.android.kidtrackerparent.Parent.Areas.DisplayAreaActivity;
+import com.example.android.kidtrackerparent.Parent.Kids.KidLocationActivity;
+import com.example.android.kidtrackerparent.Parent.Kids.KidsListFragment;
+import com.example.android.kidtrackerparent.Parent.Rules.AddRuleActivity;
+import com.example.android.kidtrackerparent.Parent.Rules.RulesListActivity;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 
@@ -40,6 +45,7 @@ public class ParentMainActivity extends AppCompatActivity
     private NavigationView mNavigationView;
     private TextView mParentNameTextView;
     private TextView mParentMailTextVIew;
+    private Toast mToast;
 
     public final static String INTENT_EXTRA_KEY_KID = "kid";
     public final static String INTENT_EXTRA_KEY_AREA = "area";
@@ -50,7 +56,6 @@ public class ParentMainActivity extends AppCompatActivity
         setContentView(R.layout.activity_parent_main);
         getDataFromJson();
         setReferencesToViews();
-
 
         ObtainUserInfo task = new ObtainUserInfo(mParentNameTextView, mParentMailTextVIew);
         task.execute(this);
@@ -129,6 +134,11 @@ public class ParentMainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AreasListFragment()).commit();
                 break;
             case R.id.nav_rules:
+                Bundle bundle = new Bundle();
+                bundle.putString("activity", "rules");
+                KidsListFragment fragment = new KidsListFragment();
+                fragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
                 break;
             case R.id.nav_logout:
                 deleteToken();
@@ -159,9 +169,25 @@ public class ParentMainActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Kid item) {
         Log.d(TAG, "onListFragmentInteraction: " + item.getName());
-        Intent intent = new Intent(this, KidLocationActivity.class);
-        intent.putExtra(INTENT_EXTRA_KEY_KID, item);
-        startActivity(intent);
+        if (mNavigationView.getCheckedItem().getItemId() == R.id.nav_kids) {
+            if (item.getLastLocationTime() == null) {
+                if (mToast != null) {
+                    mToast.cancel();
+                }
+                mToast = Toast.makeText(this, "Brak lokalizacji", Toast.LENGTH_SHORT);
+                mToast.show();
+            } else {
+                Intent intent = new Intent(this, KidLocationActivity.class);
+                intent.putExtra(INTENT_EXTRA_KEY_KID, item);
+                startActivity(intent);
+            }
+
+        } else if (mNavigationView.getCheckedItem().getItemId() == R.id.nav_rules) {
+            Intent intent = new Intent(this, RulesListActivity.class);
+            intent.putExtra(INTENT_EXTRA_KEY_KID, item);
+            startActivity(intent);
+        }
+
     }
 
     @Override

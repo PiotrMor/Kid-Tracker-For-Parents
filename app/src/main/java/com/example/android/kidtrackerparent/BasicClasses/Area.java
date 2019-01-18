@@ -30,7 +30,7 @@ public class Area implements Serializable {
     public static final String ICON_BOOK = "book";
 
     public Area(JSONObject jsonObject) {
-        this.id = JSONUtils.getUserIdFromJson(jsonObject);
+        this.id = JSONUtils.getValueFromJson(jsonObject, "_id");
         this.name = JSONUtils.getValueFromJson(jsonObject, "name");
         this.iconId = JSONUtils.getValueFromJson(jsonObject, "iconId");
         try {
@@ -41,6 +41,10 @@ public class Area implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public String getId() {
+        return id;
     }
 
     public List<Kid> getKids() {

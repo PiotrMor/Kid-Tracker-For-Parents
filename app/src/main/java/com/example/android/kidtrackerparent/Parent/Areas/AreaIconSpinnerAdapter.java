@@ -1,7 +1,6 @@
 package com.example.android.kidtrackerparent.Parent.Areas;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +13,12 @@ import com.example.android.kidtrackerparent.R;
 
 import java.util.ArrayList;
 
-public class AreaSpinnerAdapter extends ArrayAdapter<Icon> {
+public class AreaIconSpinnerAdapter extends ArrayAdapter<Icon> {
 
-    private final static String TAG = AreaSpinnerAdapter.class.getSimpleName();
+    private final static String TAG = AreaIconSpinnerAdapter.class.getSimpleName();
 
-    public AreaSpinnerAdapter(Context context, ArrayList<Icon> list) {
+    public AreaIconSpinnerAdapter(Context context, ArrayList<Icon> list) {
         super(context, 0, list);
-        Log.d(TAG, "AreaSpinnerAdapter: Sieam");
 
     }
 
@@ -41,7 +39,7 @@ public class AreaSpinnerAdapter extends ArrayAdapter<Icon> {
         }
         Log.d(TAG, "getCustomView: " + position);
         ImageView image = convertView.findViewById(R.id.iv_area_icon);
-        TextView label = convertView.findViewById(R.id.tv_area_name);
+        TextView label = convertView.findViewById(R.id.iv_rule_area_icon);
 
         Icon element = getItem(position);
 

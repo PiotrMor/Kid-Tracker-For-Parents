@@ -35,7 +35,7 @@ public class JSONUtils {
         try {
             return jsonObject.getString(key);
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.d(TAG, "getValueFromJson: " + key + " jest puste");
         }
         return null;
     }

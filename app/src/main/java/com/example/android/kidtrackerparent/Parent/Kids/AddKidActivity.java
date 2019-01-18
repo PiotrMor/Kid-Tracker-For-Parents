@@ -1,4 +1,4 @@
-package com.example.android.kidtrackerparent.Parent;
+package com.example.android.kidtrackerparent.Parent.Kids;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -20,6 +20,7 @@ import com.android.colorpicker.ColorPickerDialog;
 import com.android.colorpicker.ColorPickerSwatch;
 import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.NetworkUtils.ResponseTuple;
+import com.example.android.kidtrackerparent.Parent.ParentMainActivity;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
 
@@ -55,6 +56,7 @@ public class AddKidActivity extends AppCompatActivity {
             @Override
             public void onColorSelected(int color) {
                 mIconPreview.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                mSelectedColor = color;
             }
         });
 

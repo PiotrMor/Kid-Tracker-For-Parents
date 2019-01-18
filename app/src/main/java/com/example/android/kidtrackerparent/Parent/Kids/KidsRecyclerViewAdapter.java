@@ -1,17 +1,16 @@
-package com.example.android.kidtrackerparent.Parent;
+package com.example.android.kidtrackerparent.Parent.Kids;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
-import com.example.android.kidtrackerparent.Parent.KidsListFragment.OnListFragmentInteractionListener;
+import com.example.android.kidtrackerparent.Parent.Kids.KidsListFragment.OnListFragmentInteractionListener;
 import com.example.android.kidtrackerparent.R;
 
 import java.util.List;
