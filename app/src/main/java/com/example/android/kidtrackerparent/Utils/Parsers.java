@@ -53,12 +53,10 @@ public class Parsers {
     public static String parseLocationTimeToString(String locationTime) {
 
         if (locationTime != null) {
-            Log.d(TAG, "parseLocationTimeToString: " + locationTime);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
             Date date = null;
             try {
                 date = format.parse(locationTime);
-                Log.d(TAG, "parseLocationTimeToString: " + date);
                 SimpleDateFormat myFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
                 return myFormat.format(date);
             } catch (ParseException e) {
@@ -66,7 +64,33 @@ public class Parsers {
             }
         }
         return null;
+    }
 
+    public static String getTimeFromDateString(String dateString) {
+        if (dateString != null) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            try {
+                Date date = format.parse(dateString);
+                SimpleDateFormat myFormat = new SimpleDateFormat("HH:mm");
+                return myFormat.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
+    public static String getDateFromString(String dateString) {
+        if (dateString != null) {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            try {
+                Date date = format.parse(dateString);
+                SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
+                return myFormat.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

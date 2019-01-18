@@ -32,7 +32,7 @@ public class Kid implements Serializable {
 
 
     public Kid(JSONObject jsonObject) {
-        this.mId = JSONUtils.getUserIdFromJson(jsonObject);
+        this.mId = JSONUtils.getValueFromJson(jsonObject, "_id");
         this.mName = JSONUtils.getValueFromJson(jsonObject, "name");
         this.mEmail = JSONUtils.getValueFromJson(jsonObject, "email");
         this.mColor = JSONUtils.getValueFromJson(jsonObject, "iconColor");

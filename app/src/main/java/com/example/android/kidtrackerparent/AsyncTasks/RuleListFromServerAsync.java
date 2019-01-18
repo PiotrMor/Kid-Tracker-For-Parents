@@ -2,6 +2,7 @@ package com.example.android.kidtrackerparent.AsyncTasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.BasicClasses.Rule;
@@ -18,6 +19,8 @@ public class RuleListFromServerAsync extends AsyncTask<Context, Void, ArrayList<
     private AsyncResponse<ArrayList<Rule>> mListener;
     private String mKidId;
 
+    public static final String TAG = RuleListFromServerAsync.class.getSimpleName();
+
     public RuleListFromServerAsync(String kidId, AsyncResponse<ArrayList<Rule>> listener){
         mListener = listener;
         mKidId = kidId;
@@ -29,7 +32,7 @@ public class RuleListFromServerAsync extends AsyncTask<Context, Void, ArrayList<
                 BackEndServerUtils.SERVER_GET_RULES_FOR_KID + mKidId,
                 PreferenceUtils.getSessionCookie(contexts[0]),
                 BackEndServerUtils.REQUEST_GET);
-
+        Log.d(TAG, "doInBackground: " + jsonString);
         if (!jsonString.isEmpty()) {
             ArrayList<Rule> ruleList = new ArrayList<>();
 

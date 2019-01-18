@@ -79,7 +79,7 @@ public class AreasRecyclerViewAdapter extends RecyclerView.Adapter<AreasRecycler
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
-            mAreaName = itemView.findViewById(R.id.tv_area_name);
+            mAreaName = itemView.findViewById(R.id.iv_rule_area_icon);
             mAreaIcon = itemView.findViewById(R.id.iv_area_icon);
         }
     }

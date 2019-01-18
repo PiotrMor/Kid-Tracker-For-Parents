@@ -39,7 +39,7 @@ public class AreaIconSpinnerAdapter extends ArrayAdapter<Icon> {
         }
         Log.d(TAG, "getCustomView: " + position);
         ImageView image = convertView.findViewById(R.id.iv_area_icon);
-        TextView label = convertView.findViewById(R.id.tv_area_name);
+        TextView label = convertView.findViewById(R.id.iv_rule_area_icon);
 
         Icon element = getItem(position);
 

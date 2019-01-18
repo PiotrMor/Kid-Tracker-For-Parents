@@ -40,7 +40,7 @@ public class AreaSpinnerAdapter extends ArrayAdapter<Area> {
         }
 
         ImageView image = convertView.findViewById(R.id.iv_area_icon);
-        TextView label = convertView.findViewById(R.id.tv_area_name);
+        TextView label = convertView.findViewById(R.id.iv_rule_area_icon);
 
         Area area = getItem(position);
 

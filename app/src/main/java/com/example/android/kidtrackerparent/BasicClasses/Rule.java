@@ -2,6 +2,9 @@ package com.example.android.kidtrackerparent.BasicClasses;
 
 import android.util.Log;
 
+import com.example.android.kidtrackerparent.Utils.JSONUtils;
+import com.example.android.kidtrackerparent.Utils.Parsers;
+
 import org.json.JSONObject;
 
 public class Rule {
@@ -25,6 +28,64 @@ public class Rule {
     private boolean mActive;
 
     public Rule(JSONObject jsonObject) {
-        Log.d(TAG, "Rule: " + jsonObject);
+        mActive = Boolean.parseBoolean(JSONUtils.getValueFromJson(jsonObject, "active"));
+        mRuleId = JSONUtils.getValueFromJson(jsonObject, "_id");
+        mRepetition = JSONUtils.getValueFromJson(jsonObject, "repetition");
+        mAreaId = JSONUtils.getValueFromJson(jsonObject, "areaId");
+
+        String startDate = JSONUtils.getValueFromJson(jsonObject, "startDate");
+        mStartDate = Parsers.getDateFromString(startDate);
+        mStartTime = Parsers.getTimeFromDateString(startDate);
+
+        String endDate = JSONUtils.getValueFromJson(jsonObject, "endDate");
+        mEndDate = Parsers.getDateFromString(endDate);
+        mEndTime = Parsers.getTimeFromDateString(endDate);
+        Log.d(TAG, "Rule: " + toString());
+    }
+
+    public String getmRuleId() {
+        return mRuleId;
+    }
+
+    public String getmAreaId() {
+        return mAreaId;
+    }
+
+    public String getmRepetition() {
+        return mRepetition;
+    }
+
+    public String getmStartDate() {
+        return mStartDate;
+    }
+
+    public String getmEndDate() {
+        return mEndDate;
+    }
+
+    public String getmStartTime() {
+        return mStartTime;
+    }
+
+    public String getmEndTime() {
+        return mEndTime;
+    }
+
+    public boolean ismActive() {
+        return mActive;
+    }
+
+    @Override
+    public String toString() {
+        return "Rule{" +
+                "mRuleId='" + mRuleId + '\'' +
+                ", mAreaId='" + mAreaId + '\'' +
+                ", mRepetition='" + mRepetition + '\'' +
+                ", mStartDate='" + mStartDate + '\'' +
+                ", mEndDate='" + mEndDate + '\'' +
+                ", mStartTime='" + mStartTime + '\'' +
+                ", mEndTime='" + mEndTime + '\'' +
+                ", mActive=" + mActive +
+                '}';
     }
 }
