@@ -5,9 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
@@ -19,13 +16,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:context=".Parent.Rules.RulesListActivity"
                 tools:listitem="@layout/fragment_rules_list_item">
 
             </android.support.v7.widget.RecyclerView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
 
-    </ScrollView>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_add_rule"

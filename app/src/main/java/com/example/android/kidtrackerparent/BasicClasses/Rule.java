@@ -1,7 +1,9 @@
 package com.example.android.kidtrackerparent.BasicClasses;
 
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.JSONUtils;
 import com.example.android.kidtrackerparent.Utils.Parsers;
 
@@ -27,6 +29,10 @@ public class Rule {
     private String mEndTime;
     private boolean mActive;
 
+    //Optional
+    private String mAreaName;
+    private String mAreaIcon;
+
     public Rule(JSONObject jsonObject) {
         mActive = Boolean.parseBoolean(JSONUtils.getValueFromJson(jsonObject, "active"));
         mRuleId = JSONUtils.getValueFromJson(jsonObject, "_id");
@@ -43,37 +49,84 @@ public class Rule {
         Log.d(TAG, "Rule: " + toString());
     }
 
-    public String getmRuleId() {
+    public void setAreaIcon(String areaIcon) {
+        mAreaIcon = areaIcon;
+    }
+
+    public void setAreaName(String areaName) {
+        mAreaName = areaName;
+    }
+
+    public String getAreaName() {
+        return mAreaName;
+    }
+
+    public String getAreaIcon() {
+        return mAreaIcon;
+    }
+
+    public String getRuleId() {
         return mRuleId;
     }
 
-    public String getmAreaId() {
+    public String getAreaId() {
         return mAreaId;
     }
 
-    public String getmRepetition() {
-        return mRepetition;
+    public String getRepetition() {
+        return mRepetition.toLowerCase();
     }
 
-    public String getmStartDate() {
+    public String getStartDate() {
         return mStartDate;
     }
 
-    public String getmEndDate() {
+    public String getEndDate() {
         return mEndDate;
     }
 
-    public String getmStartTime() {
+    public String getStartTime() {
         return mStartTime;
     }
 
-    public String getmEndTime() {
+    public String getEndTime() {
         return mEndTime;
     }
 
-    public boolean ismActive() {
+    public boolean isActive() {
         return mActive;
     }
+
+    public String getFullStartTime() {
+        return mStartTime + " " + mStartDate;
+    }
+
+    public String getFullEndTime() {
+        return mEndTime + " " + mEndDate;
+    }
+
+    public int getRepetitionResourceStringId() {
+        switch (mRepetition) {
+            case REPETITION_NONE:
+                return R.string.rules_repetition_none;
+            case REPETITION_DAILY:
+                return R.string.rules_repetition_daily;
+            case REPETITION_MONTHLY:
+                return R.string.rules_repetition_monthly;
+            case REPETITION_WEEKLY:
+                return R.string.rules_repetition_weekly;
+            case REPETITION_YEARLY:
+                return R.string.rules_repetition_yearly;
+            case REPETITION_WEEKENDS:
+                return R.string.rules_repetition_weekends;
+            case REPETITION_WORKDAYS:
+                return R.string.rules_repetition_work_days;
+            default:
+                return R.string.rules_repetition_none;
+        }
+    }
+
+
 
     @Override
     public String toString() {
