@@ -48,13 +48,14 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
         viewHolder.mRuleStartTimeTextView.setText(viewHolder.mRule.getFullStartTime());
         viewHolder.mRuleEndTimeTextView.setText(viewHolder.mRule.getFullEndTime());
         viewHolder.mRuleRepetitionTextView.setText(
-                viewHolder.context.getString(R.string.rules_repetition_none)
+                viewHolder.context.getString(viewHolder.mRule.getRepetitionResourceStringId())
         );
         viewHolder.mAreaNameTextView.setText(viewHolder.mRule.getAreaName());
         viewHolder.mRuleActiveSwitch.setChecked(viewHolder.mRule.isActive());
         viewHolder.mAreaIconImageView.setImageDrawable(
                 getDrawableIcon(viewHolder.mRule.getAreaIcon(), viewHolder.context)
         );
+
 
         viewHolder.mRuleActiveSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

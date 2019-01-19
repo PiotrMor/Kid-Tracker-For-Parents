@@ -2,6 +2,7 @@ package com.example.android.kidtrackerparent.NetworkUtils;
 
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.android.kidtrackerparent.Enums.AccountType;
 
@@ -49,6 +50,7 @@ public class Registration extends AsyncTask<Void, Void, ResponseTuple> {
         params.put("lastName", secondName);
         params.put("password", password);
         params.put("email", email);
+        Log.d(TAG, "createParamsForPostCall: " + params);
         return params;
     }
 

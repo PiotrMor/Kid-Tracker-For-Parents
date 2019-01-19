@@ -127,11 +127,10 @@ public class DisplayCodeFragment extends Fragment {
 
     private void startCountdownTimer() {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", new Locale("polish"));
-        //TODO: check if this works all the time
         try {
             Date date = df.parse(mCreationDate);
             new CountDownTimer(
-                    date.getTime() + TimeUnit.MINUTES.toMillis(2) + TimeUnit.HOURS.toMillis(1) +  - Calendar.getInstance().getTimeInMillis() , 1000) {
+                    date.getTime() + TimeUnit.MINUTES.toMillis(2)  - Calendar.getInstance().getTimeInMillis() , 1000) {
 
                 @Override
                 public void onTick(long millisUntilFinished) {

@@ -33,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity implements Registration.
     private AccountType mAccountType;
     private Button mRegisterButton;
 
-    private String mFirebaseToken;
+    private Toast mToast;
 
     private boolean isInputDataCorrect = true;
 
@@ -63,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity implements Registration.
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isInputDataCorrect = true;
                 checkUserInput();
                 if (isInputDataCorrect) {
                     registerUser();
@@ -98,26 +99,26 @@ public class RegisterActivity extends AppCompatActivity implements Registration.
     private void checkPassword() {
         if (mPassword.getText().toString().length() < 6) {
             isInputDataCorrect = false;
-            Log.d(TAG, "checkPassword: zle haslo");
+            showToastMessage("Hasło powinno mieć przynajmniej 6 znaków");
         }
     }
 
     private void checkEmail() {
         if (!mEmail.getText().toString().contains("@")) {
             isInputDataCorrect = false;
-            Log.d(TAG, "checkEmail: zly email");
+            showToastMessage("Zły adres email");
         }
     }
 
     private void checkPersonalData() {
-        if (mName.getText().toString().equals("")) {
+        if (mName.getText().toString().isEmpty()) {
             isInputDataCorrect = false;
-            Log.d(TAG, "checkPersonalData: name not set");
+            showToastMessage("Wpisz imię");
         }
 
-        if (mSurname.getText().toString().equals("")) {
+        if (mSurname.getText().toString().isEmpty()) {
             isInputDataCorrect = false;
-            Log.d(TAG, "checkPersonalData: surname not set");
+            showToastMessage("Wpisz nazwisko");
         }
     }
 
@@ -133,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity implements Registration.
     private void checkAccountType() {
         if (mAccountType == null) {
             isInputDataCorrect = false;
-            Log.d(TAG, "checkAccountType: account type not set");
+            showToastMessage("Wybierz rodzaj konta");
         }
     }
 
@@ -149,12 +150,22 @@ public class RegisterActivity extends AppCompatActivity implements Registration.
 
     @Override
     public void processFinish(ResponseTuple tuple) {
-        if (!tuple.getResponse().equals("")) {
+        if (!tuple.getResponse().isEmpty()) {
 
-            Toast.makeText(this,"Udało się", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Zarejestrowano", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
+        } else {
+            showToastMessage("Błąd przy rejestracji");
         }
+    }
+
+    private void showToastMessage(String message) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        mToast.show();
     }
 }

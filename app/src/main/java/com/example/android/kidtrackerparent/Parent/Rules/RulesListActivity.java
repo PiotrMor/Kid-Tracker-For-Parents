@@ -45,6 +45,10 @@ public class RulesListActivity extends AppCompatActivity implements AsyncRespons
         addRefreshOnSwap();
         addFabOnClick();
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Reguły dziecka: " + mKid.getName());
+        }
+
     }
 
     @Override

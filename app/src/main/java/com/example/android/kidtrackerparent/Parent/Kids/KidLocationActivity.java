@@ -32,8 +32,16 @@ public class KidLocationActivity extends AppCompatActivity implements OnMapReady
             mLocation = new LatLng(mKid.getLatitude(), mKid.getLongitude());
         }
 
+        setActionBarTitle();
+
         SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_kid_location);
         fragment.getMapAsync(this);
+    }
+
+    private void setActionBarTitle() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Lokalizajca " + mKid.getName());
+        }
     }
 
     @Override

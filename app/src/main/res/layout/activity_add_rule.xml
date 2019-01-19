@@ -122,15 +122,18 @@
 
         <Spinner
             android:id="@+id/spinner_areas"
-            android:layout_width="256dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/tv_end_time_label"
             app:layout_constraintTop_toBottomOf="@+id/tv_end_time_label" />
 
         <Spinner
             android:id="@+id/spinner_repetition"
-            android:layout_width="256dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             app:layout_constraintEnd_toEndOf="@+id/spinner_areas"
@@ -153,8 +156,8 @@
             android:id="@+id/view_separator"
             android:layout_width="0dp"
             android:layout_height="1dp"
+            android:layout_marginTop="24dp"
             android:background="@color/gray"
-            android:layout_marginTop="28dp"
             app:layout_constraintStart_toStartOf="@+id/tv_end_date_label"
             app:layout_constraintTop_toBottomOf="@+id/tv_end_date_label" />
 
