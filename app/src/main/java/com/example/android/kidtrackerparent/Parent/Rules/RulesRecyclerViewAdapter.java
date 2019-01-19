@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -96,7 +97,12 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
             mRuleActiveSwitch = itemView.findViewById(R.id.switch_rule_active);
             mAreaIconImageView = itemView.findViewById(R.id.iv_rule_area_icon);
 
+            mRuleActiveSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
+                }
+            });
         }
 
     }

@@ -47,6 +47,12 @@ public class RulesListActivity extends AppCompatActivity implements AsyncRespons
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getRuleList();
+    }
+
     private void addFabOnClick() {
         mFloatingButton = findViewById(R.id.fab_add_rule);
         mFloatingButton.setOnClickListener(new View.OnClickListener() {

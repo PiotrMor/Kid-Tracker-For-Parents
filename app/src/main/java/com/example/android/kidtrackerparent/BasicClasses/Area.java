@@ -37,10 +37,24 @@ public class Area implements Serializable {
             JSONObject location = jsonObject.getJSONObject("location");
             JSONArray array = location.getJSONArray("coordinates");
             mPositionPoints = Parsers.parseJsonArrayToLatLngList(array);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        try {
+            this.mKids = createListOfKids(jsonObject.getJSONArray("children"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private List<Kid> createListOfKids(JSONArray children) throws JSONException {
+        List<Kid> list = new ArrayList<>();
+        for (int i = 0; i < children.length(); i++) {
+            JSONObject json = children.getJSONObject(i);
+            list.add(new Kid(json));
+        }
+        return list;
     }
 
     public String getId() {

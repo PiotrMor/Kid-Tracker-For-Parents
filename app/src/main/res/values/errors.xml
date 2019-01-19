@@ -2,4 +2,13 @@
 <resources>
     <string name="error_area_name_empty">Nazwa obszaru jest pusta</string>
     <string name="error_kids_not_chosen">Wybierz dzieci</string>
+
+
+
+    <string name="error_start_date_not_choosen">Wybierz datę rozpoczęcia</string>
+    <string name="error_end_date_not_choosen">Wybierz datę zakończenia</string>
+    <string name="error_start_time_not_choosen">Wybierz czas rozpoczęcia</string>
+    <string name="error_end_time_not_choosen">Wybierz czas zakończenia</string>
+    <string name="error_wrong_dates">Wybrane daty są nie poprawne</string>
+    <string name="error_wrong_times">Wybrane godziny są nie poprawne</string>
 </resources>
