@@ -60,6 +60,10 @@ public class ParentMainActivity extends AppCompatActivity
         ObtainUserInfo task = new ObtainUserInfo(mParentNameTextView, mParentMailTextVIew);
         task.execute(this);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.activity_parent_main_title));
+        }
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new KidsListFragment()).commit();
         mNavigationView.setCheckedItem(R.id.nav_kids);
@@ -128,12 +132,16 @@ public class ParentMainActivity extends AppCompatActivity
 
         switch (item.getItemId()) {
             case R.id.nav_kids:
+                changeAppTitle(getString(R.string.activity_parent_main_title));
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new KidsListFragment()).commit();
                 break;
             case R.id.nav_areas:
+                changeAppTitle(getString(R.string.activity_area_list_title));
+
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AreasListFragment()).commit();
                 break;
             case R.id.nav_rules:
+                changeAppTitle(getString(R.string.activity_choose_kid_title));
                 Bundle bundle = new Bundle();
                 bundle.putString("activity", "rules");
                 KidsListFragment fragment = new KidsListFragment();
@@ -149,6 +157,12 @@ public class ParentMainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void changeAppTitle(String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
     }
 
     private void deleteToken() {

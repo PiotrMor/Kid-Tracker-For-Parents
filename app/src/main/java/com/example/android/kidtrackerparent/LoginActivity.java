@@ -78,25 +78,34 @@ public class LoginActivity extends AppCompatActivity {
         getFirebaseToken();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        mSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mServerPost = new AsyncTask() {
-                    @Override
-                    protected Object doInBackground(Object[] objects) {
-                        logInToServer(mEmailView.getText().toString(), mPasswordView.getText().toString());
-                        return null;
-                    }
-                };
-                mServerPost.execute();
-            }
-        });
+        setSignInButtonOnClick();
         // Set up the login form.
         configureGoogleSignInButton();
 
         configureGoogleSignInClient();
 
 
+    }
+
+    private void setSignInButtonOnClick() {
+        mSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mEmailView.getText().toString().isEmpty() || mPasswordView.getText().toString().isEmpty()) {
+                    showToastMessage("Uzupełnij dane logowania");
+                } else {
+                    mServerPost = new AsyncTask() {
+                        @Override
+                        protected Object doInBackground(Object[] objects) {
+                            logInToServer(mEmailView.getText().toString(), mPasswordView.getText().toString());
+                            return null;
+                        }
+                    };
+                    mServerPost.execute();
+                }
+
+            }
+        });
     }
 
     @Override
@@ -342,13 +351,17 @@ public class LoginActivity extends AppCompatActivity {
 
                         // Get new Instance ID token
                         mFirebaseToken = task.getResult().getToken();
-                        Log.d(TAG, "onComplete: token: " + mFirebaseToken );
-                        // Log and toast
-                        //String msg = getString(R.string.msg_token_fmt, token);
-                        //Log.d(TAG, msg);
-                        Toast.makeText(LoginActivity.this, "Dodano token", Toast.LENGTH_SHORT).show();
+
                     }
                 });
+    }
+
+    private void showToastMessage(String message) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        mToast.show();
     }
 
 }

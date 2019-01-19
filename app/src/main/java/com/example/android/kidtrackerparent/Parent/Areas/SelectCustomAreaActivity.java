@@ -74,9 +74,15 @@ public class SelectCustomAreaActivity extends AppCompatActivity implements OnMap
 
         addButtonsOnClicks();
 
-
         SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_google_map);
         fragment.getMapAsync(this);
+        setActionBarTitle();
+    }
+
+    private void setActionBarTitle() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.activity_choose_area_title));
+        }
     }
 
     private void addButtonsOnClicks() {

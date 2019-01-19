@@ -52,7 +52,6 @@ public class KidsSpinnerAdapter extends ArrayAdapter<Kid> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_view_kids, parent, false);
         }
-        Log.d(TAG, "getCustomView: " + mChosenKids);
         TextView defaultTextView = convertView.findViewById(R.id.tv_kid_spinner_default);
         if (mChosenKids.isEmpty()) {
             defaultTextView.setVisibility(View.VISIBLE);
@@ -86,7 +85,6 @@ public class KidsSpinnerAdapter extends ArrayAdapter<Kid> {
             @Override
             public void onClick(View v) {
                 mChosenKids.remove(button.getKidReference());
-                Log.d(TAG, "setOnClickListener: " + mChosenKids);
                 notifyDataSetChanged();
             }
         });
@@ -110,7 +108,8 @@ public class KidsSpinnerAdapter extends ArrayAdapter<Kid> {
         if (kid != null) {
             name.setText(kid.getName());
             firstLetter.setText(kid.getName().substring(0,1));
-            // TODO: change a color of first letter background
+            firstLetter.getBackground().setColorFilter(Color.parseColor(kid.getColor())
+                    ,PorterDuff.Mode.SRC_ATOP);
         }
         isChanged = true;
         return convertView;

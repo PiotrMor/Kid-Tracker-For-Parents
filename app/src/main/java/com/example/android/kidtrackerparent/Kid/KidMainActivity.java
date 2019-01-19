@@ -32,8 +32,6 @@ public class KidMainActivity extends AppCompatActivity
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
-        Log.d(TAG, "onCreate: ");
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -46,8 +44,11 @@ public class KidMainActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_map);
 
         LocationSenderUtilities.scheduleSendingLocation(this);
-    }
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(getString(R.string.activity_kid_main_title));
+        }
+    }
 
 
     @Override

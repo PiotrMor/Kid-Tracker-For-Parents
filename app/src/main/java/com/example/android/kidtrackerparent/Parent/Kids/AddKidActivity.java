@@ -43,6 +43,10 @@ public class AddKidActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_kid);
         setReferencesToViews();
         setIconPreview();
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Dodaj dziecko");
+        }
     }
 
     private void setIconPreview() {
@@ -56,6 +60,7 @@ public class AddKidActivity extends AppCompatActivity {
             @Override
             public void onColorSelected(int color) {
                 mIconPreview.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
                 mSelectedColor = color;
             }
         });
@@ -132,17 +137,24 @@ public class AddKidActivity extends AppCompatActivity {
             HashMap<String, String> map = new HashMap<>();
             map.put(KEY_NAME, mNameEditText.getText().toString());
             map.put(KEY_CODE, mCodeEditText.getText().toString());
-            map.put(KEY_COLOR, "#" + Integer.toHexString(mSelectedColor));
-            // TODO: with or without #
+            map.put(KEY_COLOR, "#" + Integer.toHexString(mSelectedColor).substring(2));
             Log.d(TAG, "doInBackground: " + map);
             ResponseTuple response = BackEndServerUtils.performPostCall(BackEndServerUtils.SERVER_ADD_CHILDREN, map, PreferenceUtils.getSessionCookie(AddKidActivity.this));
             if (!response.getResponse().isEmpty()) {
-                mToast = Toast.makeText(AddKidActivity.this, "Dodano dziecko", Toast.LENGTH_SHORT);
-                mToast.show();
-                Intent intent = new Intent(AddKidActivity.this, ParentMainActivity.class);
-                startActivity(intent);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToastMessage("Dodano dziecko");
+                    }
+                });
+                finish();
             } else {
-
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToastMessage("Wystąpił błąd");
+                    }
+                });
             }
             return null;
         }
@@ -153,5 +165,13 @@ public class AddKidActivity extends AppCompatActivity {
         protected void onPostExecute(Object o) {
             mAddKidButton.setClickable(true);
         }
+    }
+
+    private void showToastMessage(String message) {
+        if (mToast != null) {
+            mToast.cancel();
+        }
+        mToast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        mToast.show();
     }
 }

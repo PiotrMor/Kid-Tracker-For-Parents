@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kid Tracker Parent</string>
+    <string name="app_name">GdzieJestMojeDziecko?</string>
     <!-- Strings related to login and register -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Hasło</string>
@@ -93,4 +93,11 @@
     <string name="rules_repetition_weekends">Weekendy</string>
     <string name="rule_repetition_label">Powtarzanie</string>
 
+
+    <!--Activity titles-->
+    <string name="activity_parent_main_title">Aplikacja rodzica</string>
+    <string name="activity_area_list_title">Lista obszarów</string>
+    <string name="activity_choose_kid_title">Wybierz dziecko</string>
+    <string name="activity_kid_main_title">Aplikacja dziecka</string>
+    <string name="activity_choose_area_title">Wybierz obszar</string>
 </resources>
