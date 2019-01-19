@@ -49,8 +49,8 @@ public class KidMapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         getLocationPermission();
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         SupportMapFragment fragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.fragment_kid_map);
         fragment.getMapAsync(this);
         SendLocationToServerAsync task = new SendLocationToServerAsync();
