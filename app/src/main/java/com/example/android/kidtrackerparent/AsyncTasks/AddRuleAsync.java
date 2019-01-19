@@ -3,7 +3,6 @@ package com.example.android.kidtrackerparent.AsyncTasks;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.example.android.kidtrackerparent.BasicClasses.Rule;
 import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
 import com.example.android.kidtrackerparent.NetworkUtils.ResponseTuple;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
