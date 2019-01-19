@@ -2,6 +2,8 @@ package com.example.android.kidtrackerparent.Parent.Areas;
 
 import android.graphics.drawable.Drawable;
 
+import com.example.android.kidtrackerparent.BasicClasses.Area;
+
 public class Icon {
 
     private String name;
@@ -14,10 +16,12 @@ public class Icon {
 
     public String getName() {
         if (name == null) {
-            return "chuj";
+            return "Budynek";
         }
         return name;
     }
+
+
 
     public Drawable getDrawable() {
         return drawable;

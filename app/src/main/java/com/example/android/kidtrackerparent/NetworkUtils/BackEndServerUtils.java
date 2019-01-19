@@ -5,11 +5,14 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +37,9 @@ public class BackEndServerUtils {
     public static final String SERVER_GET_AREAS = SERVER_URL + "api/parent/areas";
     public static final String SERVER_DELETE_FIREBASE_TOKEN = SERVER_URL + "api/parent/location/token";
     public static final String SERVER_GET_RULES_FOR_KID = SERVER_URL + "api/parent/rules/";
+    public static final String SERVER_ADD_AREA = SERVER_URL + "api/parent/areas";
+    public static final String SERVER_ADD_RULE = SERVER_URL + "api/parent/rules";
+    public static final String SERVER_PUT_CHANGE_RULE_STATE = SERVER_URL + "api/parent/rules/";
 
     //URL's for kid app
     public static final String SERVER_REGISTER_CHILD = SERVER_URL + "registration/child";
@@ -116,42 +122,41 @@ public class BackEndServerUtils {
         return null;
     }
 
- /*   public static String performGetCall(String requestURL, String cookie) {
-
-
+    public static String performPutCall(String requestURL, JSONObject postDataParams, String cookie) {
         try {
             URL url = new URL(requestURL);
-
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+            conn.setRequestMethod("PUT");
             conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             if (cookie != null) {
                 conn.setRequestProperty("Cookie", cookie);
             }
-            conn.connect();
 
-            int respondCode = conn.getResponseCode();
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(conn.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            Log.d(TAG, "performGetCall: " + response);
-            List<String> cookies = conn.getHeaderFields().get("Set-Cookie");
-            Log.d(TAG, "performPostCall: " + cookies);
-
-            while ((inputLine = in.readLine()) != null) {
-                response.append(inputLine);
+            OutputStreamWriter out = new OutputStreamWriter(
+                    conn.getOutputStream());
+            if (postDataParams != null) {
+                out.write(postDataParams.toString());
             }
-            in.close();
-            return response.toString();
-        } catch (Exception e) {
+            out.close();
+            conn.connect();
+            int responseCode = conn.getResponseCode();
+            String response ="";
+            if (responseCode == HttpsURLConnection.HTTP_OK) {
+                String line;
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while ((line = br.readLine()) != null) {
+                    response += line;
+                }
+            }
+            return response;
+
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
         return "";
-
-    }*/
+    }
 
 
 

@@ -47,6 +47,12 @@ public class RulesListActivity extends AppCompatActivity implements AsyncRespons
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getRuleList();
+    }
+
     private void addFabOnClick() {
         mFloatingButton = findViewById(R.id.fab_add_rule);
         mFloatingButton.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +134,9 @@ public class RulesListActivity extends AppCompatActivity implements AsyncRespons
             if (area != null) {
                 rule.setAreaName(area.getName());
                 rule.setAreaIcon(area.getIconId());
+            } else {
+                rule.setAreaName("UNKNOWN");
+                rule.setAreaIcon("home");
             }
         }
     }

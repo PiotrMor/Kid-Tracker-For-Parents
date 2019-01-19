@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.android.kidtrackerparent.AsyncTasks.AsyncResponse;
+import com.example.android.kidtrackerparent.AsyncTasks.ChangeRuleStateAsync;
 import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.BasicClasses.Rule;
@@ -40,7 +43,7 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         viewHolder.mRule = mRules.get(i);
         viewHolder.mRuleStartTimeTextView.setText(viewHolder.mRule.getFullStartTime());
         viewHolder.mRuleEndTimeTextView.setText(viewHolder.mRule.getFullEndTime());
@@ -52,7 +55,24 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
         viewHolder.mAreaIconImageView.setImageDrawable(
                 getDrawableIcon(viewHolder.mRule.getAreaIcon(), viewHolder.context)
         );
-        //TODO: add image
+
+        viewHolder.mRuleActiveSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                ChangeRuleStateAsync asyncTask = new ChangeRuleStateAsync(buttonView.getContext(), new AsyncResponse<String>() {
+                    @Override
+                    public void onSuccess(String item) {
+
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+                });
+                asyncTask.execute(viewHolder.mRule.getRuleId());
+            }
+        });
     }
 
     @Override
@@ -61,6 +81,7 @@ public class RulesRecyclerViewAdapter extends RecyclerView.Adapter<RulesRecycler
     }
 
     private Drawable getDrawableIcon(String iconId, Context context) {
+        Log.d(TAG, "getDrawableIcon: " + iconId);
         switch (iconId) {
             case Area.ICON_BOOK:
                 return context.getResources().getDrawable(R.drawable.book);

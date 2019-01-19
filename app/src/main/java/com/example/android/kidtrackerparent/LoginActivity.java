@@ -102,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //mConstraintLayout.setVisibility(View.VISIBLE);
 
     }
 
@@ -125,7 +124,12 @@ public class LoginActivity extends AppCompatActivity {
                     if (!response.isEmpty()){
                         navigateToNextActivity(response);
                     } else {
-                        mConstraintLayout.setVisibility(View.VISIBLE);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+
+                            }
+                        });
                     }
                     return null;
                 }

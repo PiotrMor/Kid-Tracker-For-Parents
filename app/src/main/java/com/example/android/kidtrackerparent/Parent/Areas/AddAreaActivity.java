@@ -9,14 +9,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.android.kidtrackerparent.BasicClasses.Area;
 import com.example.android.kidtrackerparent.BasicClasses.Kid;
 import com.example.android.kidtrackerparent.BasicClasses.SerializableLatLng;
 import com.example.android.kidtrackerparent.NetworkUtils.BackEndServerUtils;
+import com.example.android.kidtrackerparent.NetworkUtils.ResponseTuple;
+import com.example.android.kidtrackerparent.Parent.ParentMainActivity;
 import com.example.android.kidtrackerparent.R;
 import com.example.android.kidtrackerparent.Utils.Parsers;
 import com.example.android.kidtrackerparent.Utils.PreferenceUtils;
@@ -124,10 +128,10 @@ public class AddAreaActivity extends AppCompatActivity {
         new AsyncTask() {
 
             @Override
-            protected Object doInBackground(Object[] objects) {
+            protected String doInBackground(Object[] objects) {
                 Map<String, String> params = new HashMap<>();
                 params.put(KEY_NAME, mAreaName);
-                params.put(KEY_ICON_ID, "home");
+                params.put(KEY_ICON_ID, getIdFromIconName(((Icon)mSpinnerIcons.getSelectedItem()).getName()));
                 JSONArray area = null;
                 try {
                     area = Parsers.parseLatLngListToJsonArray(mArea);
@@ -147,9 +151,23 @@ public class AddAreaActivity extends AppCompatActivity {
                     displayToastMessage("Coś nie tak");
                     return null;
                 }
-                Log.d(TAG, "doInBackground: " + paramsJson.toString());
+                ResponseTuple responseTuple = BackEndServerUtils.performPostCall(
+                        BackEndServerUtils.SERVER_ADD_AREA,
+                        paramsJson,
+                        PreferenceUtils.getSessionCookie(AddAreaActivity.this));
+                Log.d(TAG, "doInBackground: " +responseTuple.getResponse());
+                return responseTuple.getResponse();
+            }
 
-                return null;
+            @Override
+            protected void onPostExecute(Object o) {
+                String response = (String) o;
+                if (!response.isEmpty()) {
+                    Intent intent = new Intent(AddAreaActivity.this, ParentMainActivity.class);
+                    startActivity(intent);
+                } else {
+                    displayToastMessage("Nie można utworzyć obszru");
+                }
             }
         }.execute();
     }
@@ -197,7 +215,6 @@ public class AddAreaActivity extends AppCompatActivity {
         mIconList = new ArrayList<>();
 
         String[] labels = getResources().getStringArray(R.array.area_labels);
-        Log.d(TAG, "initSpinnerElementsList: " + Arrays.toString(labels));
         TypedArray icons = getResources().obtainTypedArray(R.array.area_icons);
         for (int i = 0; i < labels.length; i++) {
             mIconList.add(new Icon(labels[i], icons.getDrawable(i)));
@@ -226,5 +243,16 @@ public class AddAreaActivity extends AppCompatActivity {
         mToast.show();
     }
 
+    private String getIdFromIconName(String name) {
+        if (name.equals(getString(R.string.area_book_icon))){
+            return Area.ICON_BOOK;
+        } else if (name.equals(getString(R.string.area_home_icon))) {
+            return Area.ICON_HOME;
+        } else if (name.equals(getString(R.string.area_building_icon))) {
+            return Area.ICON_BUILDING;
+        } else {
+            return Area.ICON_WORK;
+        }
+    }
 
 }

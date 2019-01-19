@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public class Rule {
     public static final String TAG = Rule.class.getSimpleName();
 
-    public static final String REPETITION_NONE = "NODE";
+    public static final String REPETITION_NONE = "NONE";
     public static final String REPETITION_DAILY = "DAILY";
     public static final String REPETITION_WEEKLY = "WEEKLY";
     public static final String REPETITION_MONTHLY = "MONTHLY";
@@ -140,5 +140,9 @@ public class Rule {
                 ", mEndTime='" + mEndTime + '\'' +
                 ", mActive=" + mActive +
                 '}';
+    }
+
+    public class Builder {
+
     }
 }

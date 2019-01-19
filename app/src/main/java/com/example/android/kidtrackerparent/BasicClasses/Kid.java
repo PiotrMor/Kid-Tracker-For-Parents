@@ -49,7 +49,10 @@ public class Kid implements Serializable {
         } catch (JSONException e) {
             Log.d(TAG, "Kid: location not set");
         }
+
     }
+
+
 
     public String getId() {
         return mId;
@@ -83,4 +86,6 @@ public class Kid implements Serializable {
     public String toString() {
         return mId + " " + mName;
     }
+
+
 }
