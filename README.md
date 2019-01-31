@@ -8,7 +8,7 @@ Parent receives a notification, when child exits or enters selected area.
 This application is divided into two parts: child app and parent app. Each part can be accessed by creating an account of the desired type and logging in.
 
 **Child app features:**
- - sending a current location to the server every few minutes
+ - send a current location to the server every few minutes
  - display user current location
  - display token. The token is necessary to bind child to a parent
  
