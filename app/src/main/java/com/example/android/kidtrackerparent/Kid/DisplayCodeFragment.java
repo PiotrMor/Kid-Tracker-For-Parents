@@ -89,12 +89,15 @@ public class DisplayCodeFragment extends Fragment {
             protected void onPostExecute(Object o) {
                 String response = (String) o;
                 setCodeAndTimer(response);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        startCountdownTimer();
-                    }
-                });
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            startCountdownTimer();
+                        }
+                    });
+                }
+
             }
         };
     }
@@ -130,7 +133,7 @@ public class DisplayCodeFragment extends Fragment {
         try {
             Date date = df.parse(mCreationDate);
             new CountDownTimer(
-                    date.getTime() + TimeUnit.MINUTES.toMillis(2)  - Calendar.getInstance().getTimeInMillis() , 1000) {
+                    date.getTime() + TimeUnit.MINUTES.toMillis(2) + TimeUnit.HOURS.toMillis(1) - Calendar.getInstance().getTimeInMillis() , 1000) {
 
                 @Override
                 public void onTick(long millisUntilFinished) {

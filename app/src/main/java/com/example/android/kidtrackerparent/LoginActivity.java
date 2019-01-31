@@ -156,6 +156,7 @@ public class LoginActivity extends AppCompatActivity {
         params.put("password", password);
         if (mAccountType == AccountType.PARENT) {
             params.put("firebaseToken", mFirebaseToken);
+            Log.d(TAG, "logInToServer: " + mFirebaseToken);
         }
 
         String requestURL = getRequestURL();
@@ -169,6 +170,15 @@ public class LoginActivity extends AppCompatActivity {
                 saveSessionIdAndAccountType(responseCookie);
 
                 navigateToNextActivity(responseBody);
+            } else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mToast = Toast.makeText(LoginActivity.this, "Nie udało się zalogować", Toast.LENGTH_LONG);
+                        mToast.show();
+                    }
+                });
+
             }
         } else {
             if (mToast != null) {
@@ -351,7 +361,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         // Get new Instance ID token
                         mFirebaseToken = task.getResult().getToken();
-
                     }
                 });
     }
