@@ -253,7 +253,7 @@ public class AddRuleActivity extends AppCompatActivity implements DatePickerDial
 
                             @Override
                             public void onFailure() {
-
+                                finish();
                             }
                         });
                         asyncTask.execute(createPostParams());

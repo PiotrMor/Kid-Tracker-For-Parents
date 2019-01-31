@@ -26,8 +26,8 @@ public class LocationSenderService extends JobService {
         if (location != null) {
             HashMap<String, String> params = new HashMap<>();
             params.put("latitude", location.getLatitude() + "");
-            params.put("longitude", location.getLatitude() + "");
-            sendNotification(params + " dziala");
+            params.put("longitude", location.getLongitude() + "");
+            sendNotification(params.toString());
 
             mBackgroundTask = new SendLocationToServerAsync();
             mBackgroundTask.execute(this);
@@ -47,7 +47,6 @@ public class LocationSenderService extends JobService {
 
     private void sendNotification(String message) {
 
-        Log.d(TAG, "PLZZZZZZZZZZZZZZZZ");
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
