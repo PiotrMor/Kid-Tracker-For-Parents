@@ -14,5 +14,5 @@ This application is divided into two parts: child app and parent app. Each part 
  
 **Parent app features:**
   - display location of a child
-  - send notification, when a rule is violated
+  - display notification, when a rule is violated
   - add child, area or rule
