@@ -1,6 +1,6 @@
 ## GdzieJestMojeDziecko?
-GdzieJestMojeDziecko? is an Android application that allows parents to add rules about their children expected location at the chosen time.
-Parent receives a notification, when child exits or enters selected area.
+GdzieJestMojeDziecko? is an Android application that allows parents to keep track of their children whereabouts. They can add rules describing their children expected location at the chosen time.
+Parent receives a notification, when child exits or enters area selected in the rule.
 
 ## Features
 This application is divided into two parts: child app and parent app. Each part can be accessed by creating an account of the desired type and logging in.
